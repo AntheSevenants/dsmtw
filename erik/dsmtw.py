@@ -12,6 +12,8 @@ class DeSlimsteMens(Gameshow):
 
 		super().__init__("De Slimste Mens Ter Wereld", rounds, no_players)
 
+		self.settings = { "369_round_no": 15 }
+
 		self.set_active_player(0)
 		self.reset_turn_history()
 
@@ -50,6 +52,10 @@ class DeSlimsteMens(Gameshow):
 
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
+		if self.current_round_text == "3-6-9":
+			if self.current_subround == self.settings["369_round_no"] - 1:
+				self.advance_round()
+
 		super().advance_subround()
 		self.reset_turn_history()
 
