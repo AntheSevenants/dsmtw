@@ -20,3 +20,18 @@ def io_connect():
 	
 def broadcast_state():
 	socketio.emit("state", game.as_dict())
+
+@socketio.on('advance', namespace=namespace)
+def io_advance():
+	game.advance()
+	broadcast_state()
+
+@socketio.on('advance_round', namespace=namespace)
+def io_advance_round():
+	game.advance_round()
+	broadcast_state()
+
+@socketio.on('advance_subround', namespace=namespace)
+def io_advance_subround():
+	game.advance_subround()
+	broadcast_state()
