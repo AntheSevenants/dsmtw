@@ -5,29 +5,35 @@ class DeSlimsteMens extends Gameshow {
 		this._currentSubroundText = null;
 
 		this.scoreDomBuilt = false;
+
+		this.scores = new Scores();
 	}
 
 	renderState(state) {
-		if (!this.scoreDomBuilt) {
-			this.buildScoreDom(state);
-		}
-
+		// Pass to super method
 		super.renderState(state);
 
+		// Debug
 		document.getElementById("currentround").innerHTML = state.current_round_text;
 
+		// Hide all rounds...
 		let roundContainers = document.getElementsByClassName("round");
 		Array.from(roundContainers).forEach(roundContainer => 
 			roundContainer.classList.remove("current"));
-
+		// ..then only show the current one
 		document.getElementById(`round_${state.current_round_text}`).classList.add("current");
 
+		// Round-specific rendering
 		switch (state.current_round_text) {
 			case "3-6-9":
 				ThreeSixNine.renderState(state);
 				break;
 		}
 
+		// Render scores
+		this.scores.renderState(state);
+
+		// Host/client-specific rendering
 		if (host)
 		{
 			this.renderStateHost(state);
@@ -44,50 +50,6 @@ class DeSlimsteMens extends Gameshow {
 
 	renderStateGame(state) {
 
-	}
-
-	// Create the DOM for the scores of the players
-	// Cannot be hardcoded anymore, since here in the future, 
-	// we have variable player counts
-	buildScoreDom(state) {
-		for (let i = 0; i < state.players.length; i++) {
-			let player = state.players[i];
-
-			let circleBox = document.createElement("div");
-			circleBox.className = "circlebox";
-
-			let playerName = document.createElement("div")
-			playerName.className = "name";
-			playerName.innerHTML = player.name;
-
-			let innerCircle = document.createElement("div");
-			innerCircle.className = "circle";
-			innerCircle.id = this.getCircleElementName(i);
-
-			let score = document.createElement("p");
-			score.className = "score";
-			score.id = this.getScoreElementName(i);
-
-			let background = document.createElement("div");
-			background.className = "background";
-
-			circleBox.appendChild(playerName);
-			circleBox.appendChild(innerCircle);
-			innerCircle.appendChild(score);
-			innerCircle.appendChild(background);
-
-			document.getElementById("scores").appendChild(circleBox);
-		}
-
-		this.scoreDomBuilt = true;
-	}
-
-	getCircleElementName(playerIndex) {
-		return `circle_player_${playerIndex}`;
-	}
-
-	getScoreElementName(playerIndex) {
-		return `score_player_${playerIndex}`;
 	}
 
 	/* Communication */
