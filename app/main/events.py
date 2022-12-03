@@ -35,3 +35,15 @@ def io_advance_round():
 def io_advance_subround():
 	game.advance_subround()
 	broadcast_state()
+
+@socketio.on('answer_correct', namespace=namespace)
+def io_answer_correct(answer_value):
+	print("Received answer:", answer_value)
+	game.answer_correct(answer_value)
+	broadcast_state()
+
+@socketio.on('answer_pass', namespace=namespace)
+def io_answer_pass():
+	print("Received answer pass")
+	game.answer_pass()
+	broadcast_state()

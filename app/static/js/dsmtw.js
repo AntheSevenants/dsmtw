@@ -22,6 +22,12 @@ class DeSlimsteMens extends Gameshow {
 
 		document.getElementById(`round_${state.current_round_text}`).classList.add("current");
 
+		switch (state.current_round_text) {
+			case "3-6-9":
+				ThreeSixNine.renderState(state);
+				break;
+		}
+
 		if (host)
 		{
 			this.renderStateHost(state);
@@ -82,6 +88,17 @@ class DeSlimsteMens extends Gameshow {
 
 	getScoreElementName(playerIndex) {
 		return `score_player_${playerIndex}`;
+	}
+
+	/* Communication */
+	correct(answerValue = null)
+	{
+		this.websocket.emit("answer_correct", answerValue);
+	}
+
+	pass()
+	{
+		this.websocket.emit("answer_correct");
 	}
 }
 
