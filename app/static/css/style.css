@@ -100,12 +100,22 @@ button
     font-size: 1.15rem;
 }
 
+/* Lay-out */
+
 .container {
 	height: 100%;
 }
 
 .row {
 	height: 100%;
+}
+
+.round {
+	display: none;
+}
+
+.round.current {
+	display: block;
 }
 
 /* Circle rendering */

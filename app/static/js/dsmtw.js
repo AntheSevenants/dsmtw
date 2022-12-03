@@ -16,6 +16,12 @@ class DeSlimsteMens extends Gameshow {
 
 		document.getElementById("currentround").innerHTML = state.current_round_text;
 
+		let roundContainers = document.getElementsByClassName("round");
+		Array.from(roundContainers).forEach(roundContainer => 
+			roundContainer.classList.remove("current"));
+
+		document.getElementById(`round_${state.current_round_text}`).classList.add("current");
+
 		if (host)
 		{
 			this.renderStateHost(state);
