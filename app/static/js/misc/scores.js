@@ -45,7 +45,22 @@ class Scores {
 			this.buildScoreDom(state);
 		}
 
-		
+		let playerIndex = 0;
+		state.players.forEach(player => {
+			document.getElementById(this.getScoreElementName(playerIndex)).innerHTML = 
+				player.points;
+
+			let circle = document.getElementById(this.getCircleElementName(playerIndex));
+			circle.classList.remove("turn");
+
+			if (playerIndex == state.active_player_index) {
+				circle.classList.add("turn");
+			}
+
+			playerIndex++;
+		});
+
+
 	}
 
 	getCircleElementName(playerIndex) {

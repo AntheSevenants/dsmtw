@@ -194,6 +194,11 @@ button
 	z-index: -6;
 }
 
+.circle.turn .score
+{
+	color: #ffa930;
+}
+
 .circle .background, .circle.small.transparent.turn .background
 {
 	background-image: url('../img/dsm_circle_l_uni_spin_trans.png');
