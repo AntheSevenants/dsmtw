@@ -4,6 +4,11 @@
 	src: url('../fonts/dsmtw.ttf');
 }
 
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(359deg);}
+}
+
 /* General stuff */
 
 html, body
@@ -140,8 +145,6 @@ button
 	background-size: 115% 115%;
 
 	outline: none;
-
-    animation: rotate 60s infinite;
 }
 
 
@@ -193,9 +196,6 @@ button
 	height: 100%;
 
 	position: absolute;
-
-	animation: spin 60s infinite;
-	animation-play-state: running;
 }
 
 .circle.spin .background, .circle.small.transparent.turn .background
