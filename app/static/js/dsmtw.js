@@ -25,6 +25,8 @@ class DeSlimsteMens extends Gameshow {
 	}
 
 	renderStateGame(state) {
-		
+
 	}
 }
+
+dsmtw = new DeSlimsteMens();
