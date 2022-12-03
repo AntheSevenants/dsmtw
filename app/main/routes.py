@@ -11,11 +11,11 @@ from .. import global_questions_directory
 def overview(callback=None):
 	return render_template('overview.html')
 
-@main.route('/resources/<string:round_text>/<string:filename>')
-def display_label_image(round_text, filename):
+@main.route('/resources/<string:filename>')
+def display_label_image(filename):
 	if not os.path.isabs(global_questions_directory):
-		path = os.path.join("..", global_questions_directory, round_text, filename)
+		path = os.path.join("..", global_questions_directory, filename)
 	else:
-		path = os.path.join(global_questions_directory, round_text, filename)
+		path = os.path.join(global_questions_directory, filename)
 
 	return send_file(path)
