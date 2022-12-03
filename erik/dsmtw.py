@@ -14,6 +14,8 @@ class DeSlimsteMens(Gameshow):
 
 		self.settings = { "369_round_no": 15 }
 
+		self.question = None;
+
 		self.set_active_player(0)
 		self.reset_turn_history()
 
