@@ -106,7 +106,7 @@ button
 	height: 100%;
 }
 
-.row {
+.row.full {
 	height: 100%;
 }
 
@@ -239,6 +239,19 @@ button
 {
 	top: 2px;
 	font-size: 20px;
+}
+
+/* Questions etc */
+
+.question
+{
+	font-size: 3vw;
+}
+
+.answer
+{
+	font-size: 2vw;
+	cursor: pointer;
 }
 
 /* Bootstrap resets */
