@@ -2,13 +2,13 @@ class DeSlimsteMens extends Gameshow {
 	constructor() {
 		super();
 
-		this.currentSubroundText = null;
+		this._currentSubroundText = null;
 	}
 
 	renderState(state) {
 		super.renderState(state);
 
-		this.currentSubroundText = state.current_subround_text;
+		document.getElementById("currentround").innerHTML = state.current_round_text;
 
 		if (host)
 		{
