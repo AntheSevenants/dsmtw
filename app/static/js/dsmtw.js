@@ -60,7 +60,7 @@ class DeSlimsteMens extends Gameshow {
 
 	pass()
 	{
-		this.websocket.emit("answer_correct");
+		this.websocket.emit("answer_pass");
 	}
 }
 
