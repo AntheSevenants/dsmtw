@@ -8,7 +8,7 @@ from .. import global_questions_directory
 
 from erik.dsmtw import DeSlimsteMens
 
-game = DeSlimsteMens(["Bart", "Danira", "Liesbet"])
+game = DeSlimsteMens(["Bart", "Danira", "Liesbet"], global_questions_directory)
 game.start_game() # temporary!
 
 namespace = ""

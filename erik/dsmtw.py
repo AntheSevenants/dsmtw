@@ -1,10 +1,11 @@
 import json
 import os.path
+import json
 
 from gameshow.gameshow import Gameshow
 
 class DeSlimsteMens(Gameshow):
-	def __init__(self, players):
+	def __init__(self, players, questions_directory):
 		rounds = [ "3-6-9", "Open deur", "Puzzel", "Galerij", "Collectief geheugen",
 				   "Finale" ]
 
@@ -14,7 +15,17 @@ class DeSlimsteMens(Gameshow):
 
 		self.settings = { "369_round_no": 15 }
 
-		self.question = None;
+		self.questions = [ [] for round_text in rounds ]
+
+		for i, round_text in enumerate(self.rounds):
+			questions_json_path = os.path.join(questions_directory, f"{round_text}.json")
+			if os.path.exists(questions_json_path):
+				with open(questions_json_path, "rt") as reader:
+					self.questions[i] = json.loads(reader.read())
+			else:
+				print(f"Questions for round {round_text} not found!")
+
+		self.set_current_question(0)
 
 		self.set_active_player(0)
 		self.reset_turn_history()
@@ -52,6 +63,12 @@ class DeSlimsteMens(Gameshow):
 		else:
 			self.set_active_player(self.turn_history[-1] + 1)
 
+	# Advance round
+	def advance_round(self):
+		super().advance_round()
+
+		self.set_current_question(0)
+
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
 		if self.current_round_text == "3-6-9":
@@ -59,7 +76,12 @@ class DeSlimsteMens(Gameshow):
 				self.advance_round()
 
 		super().advance_subround()
+		# Set the current question corresponding to the current subround!
+		self.set_current_question(self.current_subround)
 		self.reset_turn_history()
+
+	def set_current_question(self, question_no):
+		self.current_question = self.questions[self.current_round][question_no]
 
 	def answer_correct(self, answer_value):
 		if self.current_round_text == "3-6-9":
