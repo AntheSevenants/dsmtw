@@ -33,6 +33,11 @@ class DeSlimsteMens(Gameshow):
 	# Turns will advance "simply" from 1 -> 2 -> 3 etc.
 	def advance_turn_simply(self):
 		if len(self.turn_history) == self.no_players:
+			# Give the turn back to the first player if this turn
+			self.set_active_player(self.turn_history[0])
+			# Then advance the subround
+			# This must be done *after* setting the active player, because
+			# advancing the subround empties the turn history
 			self.advance_subround()
 			return
 
