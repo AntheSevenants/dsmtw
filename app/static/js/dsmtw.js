@@ -66,6 +66,8 @@ class DeSlimsteMens extends Gameshow {
 
 			document.getElementById("scores").appendChild(circleBox);
 		}
+
+		this.scoreDomBuilt = true;
 	}
 
 	getCircleElementName(playerIndex) {
