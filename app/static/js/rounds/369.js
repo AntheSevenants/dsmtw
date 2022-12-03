@@ -1,12 +1,9 @@
 class ThreeSixNine {
 	static renderState(state) {
-		console.log("miep");
-
 		// Get all question circles
 		let circles = Array.from(document.querySelectorAll(".ThreeSixNine.circle"));
 
-		console.log(circles);
-
+		// Highlight the current turn
 		circles.forEach(circle => {
 			circle.classList.remove("turn");
 
@@ -14,5 +11,10 @@ class ThreeSixNine {
 				circle.classList.add("turn");
 			}
 		});
+
+		if (host) {
+			document.getElementById("round_3-6-9_question").innerHTML = state.current_question.question;
+			document.getElementById("round_3-6-9_answer").innerHTML = state.current_question.answer;
+		}
 	}
 }
