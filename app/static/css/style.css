@@ -159,7 +159,6 @@ button
 
 	width: 4vw;
 	height: 4vw;
-	line-height: 4vw;
 
 	vertical-align: bottom;
 
@@ -205,6 +204,11 @@ button
 	animation-play-state: running;
 }
 
+.circle.small.raised
+{
+	margin-bottom: 2vw;
+}
+
 .circlebox .name
 {
 	position: absolute;
@@ -220,4 +224,10 @@ button
 {
 	top: 2px;
 	font-size: 20px;
+}
+
+/* Bootstrap resets */
+.game p {
+	margin: 0;
+	padding: 0;
 }
