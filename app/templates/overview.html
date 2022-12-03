@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1 id="currentround" style="position: fixed; top: 0;">current round</h1>
+	<script type="text/javascript">
+		host = true;
+	</script>
+	<div style="position: fixed; top: 0; top: 0; left: 0; right: 0;">
+		<button onclick="javascript:game.advance();">Advance round</button>
+		<h1 id="currentround" style="display: inline-block;">current round</h1>
+	</div>
 	<div class="container">
 		<div class="row top align-items-center justify-content-center text-center">
 			<!-- Scores will go here -->
