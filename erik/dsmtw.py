@@ -4,7 +4,7 @@ import os.path
 from gameshow.gameshow import Gameshow
 
 class DeSlimsteMens(Gameshow):
-	def __init__(self, no_players):
+	def __init__(self, no_players=3):
 		rounds = [ "3-6-9", "Open deur", "Puzzel", "Galerij", "Collectief geheugen",
 				   "Finale" ]
 
