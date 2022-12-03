@@ -118,6 +118,13 @@ button
 	display: block;
 }
 
+.auxiliaryMedia img {
+	width: 100%;
+	height: auto;
+
+	display: inline-block;
+}
+
 /* Circle rendering */
 
 .circlebox

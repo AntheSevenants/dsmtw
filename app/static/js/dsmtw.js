@@ -33,6 +33,9 @@ class DeSlimsteMens extends Gameshow {
 		// Render scores
 		this.scores.renderState(state);
 
+		// Render auxiliary media (if necessary)
+		AuxiliaryMedia.renderState(state);
+
 		// Host/client-specific rendering
 		if (host)
 		{
