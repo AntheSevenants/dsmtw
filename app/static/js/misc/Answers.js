@@ -1,5 +1,9 @@
 class Answers {
 	static renderAnswers(state) {
+		if (state.current_question == null) {
+			return;
+		}
+
 		for (let i = 0; i < state.current_question.answers.length; i++) {
 			let answer = state.current_question.answers[i];
 			let currentRound = state.current_round_text;
