@@ -204,17 +204,44 @@ class DeSlimsteMens(Gameshow):
 	def answer_correct(self, answer_value):
 		if self.current_round_text == "3-6-9":
 			self.handle_369_answer_correct()
+			return
 		elif self.current_round_text == "Open deur":
-			self.handle_open_deur_answer_correct(answer_value)
+			self.handle_list_answer_correct(answer_value, 20)
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":
 			self.handle_369_answer_pass()
+			return
 		elif self.current_round_text == "Open deur":
-			self.handle_open_deur_answer_pass()
+			self.handle_list_answer_pass()
 
 	def award_seconds(self, seconds):
 		self.active_player.points += seconds
+
+	def handle_list_answer_correct(self, answer_index, awarded_seconds):
+		if answer_index in self.answers_found:
+			print("Could not register answer; answer already found")
+			return False
+
+		# Add answer to found answer list
+		self.answers_found.append(answer_index)
+		self.award_seconds(awarded_seconds)
+
+		if len(self.answers_found) == len(self.current_question["answers"]):
+			self.clock_stop()
+			self.advance_subround()
+
+	def handle_list_answer_pass(self):
+		print("Turn history", self.turn_history)
+
+		# If no one is left to guess, move on to the next questioneer choice
+		if len(self.turn_history) == self.no_players:
+			print("Player count", self.no_players)
+
+			self.advance_subround()
+			return
+
+		self.advance_turn_logically()
 
 	# 
 	# 3-6-9
@@ -247,31 +274,6 @@ class DeSlimsteMens(Gameshow):
 		self.answer_time = True
 
 		return self.current_question["video"]
-
-	def handle_open_deur_answer_correct(self, answer_index):
-		if answer_index in self.answers_found:
-			print("Could not register answer; answer already found")
-			return False
-
-		# Add answer to found answer list
-		self.answers_found.append(answer_index)
-		self.award_seconds(20)
-
-		if len(self.answers_found) == 4:
-			self.clock_stop()
-			self.advance_subround()
-
-	def handle_open_deur_answer_pass(self):
-		print("Turn history", self.turn_history)
-
-		# If no one is left to guess, move on to the next questioneer choice
-		if len(self.turn_history) == self.no_players:
-			print("Player count", self.no_players)
-
-			self.advance_subround()
-			return
-
-		self.advance_turn_logically()
 
 	#
 	# Puzzel
