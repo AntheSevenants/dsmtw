@@ -22,7 +22,7 @@ class DeSlimsteMens(Gameshow):
 			# Each question set should be named "round.json"
 			questions_json_path = os.path.join(questions_directory, f"{round_text}.json")
 			if os.path.exists(questions_json_path):
-				with open(questions_json_path, "rt") as reader:
+				with open(questions_json_path, "rt", encoding="utf-8") as reader:
 					self.questions[i] = json.loads(reader.read())
 			else:
 				print(f"Questions for round {round_text} not found!")
