@@ -1,6 +1,7 @@
 import json
 import os.path
 import json
+import itertools
 
 from gameshow.gameshow import Gameshow
 
@@ -118,14 +119,16 @@ class DeSlimsteMens(Gameshow):
 		super().advance_round()
 
 		self.reset_answers_found()
+		
+		# Player history 
+		self.reset_player_history()
 
-		if self.current_round_text in [ "3-6-9" ]:
+		if self.current_round_text in [ "3-6-9", "Puzzel" ]:
 			self.set_current_question(0)
+		
 		# Open deur does not have a rigid question structure
 		# This makes my life much more difficult. Oh well
-		elif self.current_round_text == "Open deur":
-			# Player history 
-			self.reset_player_history()
+		if self.current_round_text in [ "Open deur", "Puzzel" ]:
 
 			# Player with least seconds can start
 			# Advance GLOBAL turn (= turn for who gets a questioneer)
@@ -133,8 +136,10 @@ class DeSlimsteMens(Gameshow):
 			# Advance INTERNAL turn (= turn for who gets to answer the questioneer question)
 			# Will default to the same player as the GLOBAL turn
 			self.advance_turn_logically()
+
+		if self.current_round_text == "Open deur":
 			# Broadcast the available questioneers
-			self.set_available_questions()
+			self.set_available_questions()			
 
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
@@ -171,6 +176,11 @@ class DeSlimsteMens(Gameshow):
 		self.reset_turn_history()
 
 	def set_current_question(self, question_no):
+		# Puzzel round has specific question logic
+		if self.current_round_text == "Puzzel":
+			self.set_current_question_puzzle(self.current_subround)
+			return
+
 		self.current_question = self.questions[self.current_round][question_no]
 
 	# Used only in Open deur because question order is free there
@@ -262,3 +272,32 @@ class DeSlimsteMens(Gameshow):
 			return
 
 		self.advance_turn_logically()
+
+	#
+	# Puzzel
+	# 
+
+	def set_current_question_puzzle(self, puzzle_index):
+		# Always three questions for each puzzle
+		start_index = puzzle_index * 3
+		end_index = start_index + 3
+
+		# We get the questions
+		picked_questions = self.questions[self.current_round][start_index:end_index]
+
+		picked_keywords = []
+		picked_answer_indices = []
+		picked_answers = []
+		for index, picked_question in enumerate(picked_questions):
+			# Extract the keywords
+			picked_keywords += picked_question["keywords"]
+			# Repeat thrice, because each keyword corresponds to the same answer
+			# We save the answer indices, not the answers themselves
+			picked_answer_indices += [ index ] * 3
+
+			# Also save the answers themselves (to display them)
+			picked_answers.append(picked_question["answer"])
+
+		self.current_question = { "keywords": picked_keywords,
+								  "answer_indices": picked_answer_indices,
+								  "answers": picked_answers }
