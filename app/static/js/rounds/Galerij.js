@@ -10,5 +10,11 @@ class Galerij {
 		} else {
 			answersElement.classList.add("d-none");
 		}
+
+		if (host) {
+			document.getElementById("round_Galerij_answer").innerHTML = 
+				state.current_question.answers[state.galerij_index];
+		}
+
 	}
 }
