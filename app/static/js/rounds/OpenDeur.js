@@ -14,6 +14,10 @@ class OpenDeur {
 			image.className = "questioneer";
 			image.src = `resources/${state.available_questions[i].image}`;
 
+			if (state.question_history.includes(i)) {
+				image.classList.add("chosen");
+			}
+
 			column.appendChild(image);
 			targetElement.appendChild(column);
 		}
