@@ -137,7 +137,7 @@ class DeSlimsteMens(Gameshow):
 			if self.current_subround == self.settings["369_round_no"] - 1:
 				self.advance_round()
 				return
-		elif self.current_round_text == "Open deur":
+		elif self.current_round_text in [ "Open deur", "Puzzel" ]:
 			if self.current_subround == self.no_players - 1:
 				self.advance_round()
 				return
