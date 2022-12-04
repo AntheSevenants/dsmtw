@@ -4,6 +4,10 @@ class Answers {
 			return;
 		}
 
+		if (!("answers" in state.current_question)) {
+			return;
+		}
+
 		for (let i = 0; i < state.current_question.answers.length; i++) {
 			let answer = state.current_question.answers[i];
 			let currentRound = state.current_round_text;
