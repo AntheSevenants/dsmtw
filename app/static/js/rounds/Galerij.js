@@ -5,6 +5,7 @@ class Galerij {
 		let answersElement = document.getElementById("round_Galerij_answers");
 		answersElement.classList.remove("d-none");
 
+		// Hide the slideshow if we're in the complementing phase
 		if (state.turn_history.length > 1) {
 			slideshowControl.classList.add("d-none");
 		} else {
@@ -15,9 +16,16 @@ class Galerij {
 			document.getElementById("round_Galerij_answer").innerHTML = 
 				state.current_question.answers[state.galerij_index];
 
-			document.getElementById("round_Galerij_correct_button").onclick = () => {
+			let correctButton = document.getElementById("round_Galerij_correct_button");
+
+			correctButton.onclick = () => {
 				dsmtw.correct(state.galerij_index);
 			};
+
+			// Hide the "correct" button in the overview stage
+			if (state.overview) {
+				correctButton.classList.add("d-none");
+			}
 		}
 
 	}
