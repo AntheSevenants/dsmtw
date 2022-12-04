@@ -207,12 +207,14 @@ class DeSlimsteMens(Gameshow):
 			return
 		elif self.current_round_text == "Open deur":
 			self.handle_list_answer_correct(answer_value, 20)
+		elif self.current_round_text == "Puzzel":
+			self.handle_list_answer_correct(answer_value, 30)
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":
 			self.handle_369_answer_pass()
 			return
-		elif self.current_round_text == "Open deur":
+		elif self.current_round_text in [ "Open deur", "Puzzel" ]:
 			self.handle_list_answer_pass()
 
 	def award_seconds(self, seconds):
