@@ -120,6 +120,7 @@ class DeSlimsteMens(Gameshow):
 		
 		# Player history 
 		self.reset_player_history()
+		self.reset_turn_history()
 
 		self.general_advance()
 
@@ -132,9 +133,10 @@ class DeSlimsteMens(Gameshow):
 	def advance_subround(self):
 		self.reset_turn_history()
 
-		if current_round_text == "Galerij" and self.overview == False:
-			self.galerij_index = 0
+		if self.current_round_text == "Galerij" and self.overview == False:
+			self.reset_galerij_index()
 			self.overview = True
+			return
 
 		# Find the end of a round
 		# The conditions differ based on the current round
@@ -170,7 +172,7 @@ class DeSlimsteMens(Gameshow):
 			self.set_current_question(self.current_subround)
 
 		# The following rounds use second-based logic to determine whose turn it is
-		if self.current_round_text in [ "Open deur", "Puzzel" ]:
+		if self.current_round_text in [ "Open deur", "Puzzel", "Galerij" ]:
 			# Player with the least seconds can start
 			# We decide on the GLOBAL turn first (*not* complement turns)
 			self.advance_turn_logically(history=self.player_history)
@@ -187,8 +189,7 @@ class DeSlimsteMens(Gameshow):
 			self.overview = False
 
 			# Keep track of what image we're currently looking at
-			self.galerij_index = 0
-			self.infer_galerij_image()
+			self.reset_galerij_index()
 
 	def set_current_question(self, question_no):
 		# Puzzel round has specific question logic
@@ -225,6 +226,12 @@ class DeSlimsteMens(Gameshow):
 			self.handle_list_answer_correct(answer_value, 20)
 		elif self.current_round_text == "Puzzel":
 			self.handle_list_answer_correct(answer_value, 30)
+		elif self.current_round_text == "Galerij":
+			self.handle_list_answer_correct(answer_value, 10)
+
+			# Only advance if the primary player is answering
+			if len(self.turn_history) == 1:
+				self.advance_galerij()
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":
@@ -232,6 +239,15 @@ class DeSlimsteMens(Gameshow):
 			return
 		elif self.current_round_text in [ "Open deur", "Puzzel" ]:
 			self.handle_list_answer_pass()
+			return
+		elif self.current_round_text == "Galerij":
+			# Only advance if the primary player is answering
+			# If we're in the overview stage, "pass" should just mean skip
+			if len(self.turn_history) == 1 or self.overview:
+				self.advance_galerij()
+			else:
+				self.handle_list_answer_pass()
+			return
 
 	def award_seconds(self, seconds):
 		self.active_player.points += seconds
@@ -331,15 +347,23 @@ class DeSlimsteMens(Gameshow):
 	# Galerij
 	#
 
+	def reset_galerij_index(self):
+		self.galerij_index = 0
+		self.infer_galerij_image()
+
 	def infer_galerij_image(self):
 		self.current_question["image"] = self.current_question["images"][self.galerij_index]
 
 	def advance_galerij(self):
 		# If we reached the end of a gallery
 		if self.galerij_index == self.settings["Galerij_round_no"] - 1:
+			print("Galerij done for primary player. Complementing starts now")
+
 			# If we're still in the answering stage, pass the turn to another player
 			if not self.overview:
 				self.handle_list_answer_pass()
+				# Hide last image
+				self.current_question["image"] = None
 			# If we're in the review stage, advance the subround
 			else:
 				self.advance_subround()
