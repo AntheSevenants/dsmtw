@@ -36,6 +36,10 @@ class DeSlimsteMens extends Gameshow {
 				Puzzel.renderState(state);
 				Answers.renderAnswers(state);
 				break;
+			case "Galerij":
+				Galerij.renderState(state);
+				Answers.renderAnswers(state);
+				break;
 		}
 
 		// Render scores
