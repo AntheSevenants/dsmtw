@@ -28,6 +28,9 @@ class DeSlimsteMens extends Gameshow {
 			case "3-6-9":
 				ThreeSixNine.renderState(state);
 				break;
+			case "Open deur":
+				OpenDeur.renderState(state);
+				break;
 		}
 
 		// Render scores

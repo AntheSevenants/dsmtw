@@ -26,6 +26,7 @@ class DeSlimsteMens(Gameshow):
 				print(f"Questions for round {round_text} not found!")
 
 		self.set_current_question(0)
+		self.available_questions = []
 
 		self.set_active_player(0)
 		self.reset_turn_history()
@@ -68,7 +69,12 @@ class DeSlimsteMens(Gameshow):
 	def advance_round(self):
 		super().advance_round()
 
-		self.set_current_question(0)
+		if self.current_round_text in [ "3-6-9" ]:
+			self.set_current_question(0)
+		# Open deur does not have a rigid question structure
+		# This makes my life much more difficult. Oh well
+		else:
+			self.set_available_questions()
 
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
@@ -83,6 +89,10 @@ class DeSlimsteMens(Gameshow):
 
 	def set_current_question(self, question_no):
 		self.current_question = self.questions[self.current_round][question_no]
+
+	def set_available_questions(self):
+		self.available_questions = self.questions[self.current_round]
+		self.question_history = []
 
 	def answer_correct(self, answer_value):
 		if self.current_round_text == "3-6-9":
