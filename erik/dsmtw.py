@@ -158,8 +158,8 @@ class DeSlimsteMens(Gameshow):
 		# We reset the found answers
 		self.reset_answers_found()
 
-	# Does NOT apply to Open deur, because the question order is free for this round
-		if self.current_round_text in [ "3-6-9", "Puzzel" ]:
+		# Does NOT apply to Open deur, because the question order is free for this round
+		if self.current_round_text in [ "3-6-9", "Puzzel", "Galerij" ]:
 			# We prepare the question corresponding to the index of the 
 			# current subround. E.g. subround 0 <=> question 0 etc.
 			self.set_current_question(self.current_subround)
@@ -173,6 +173,13 @@ class DeSlimsteMens(Gameshow):
 			# We cannot ask to advance the turn logically for the turn history, 
 			# because we will get a different result and it'll ruin our day
 			self.turn_history.append(self.active_player_index)
+
+		# Galerij only
+		if self.current_round_text == "Galerij":
+			# Galerij always has an overview part to each subround
+			# In this overview part, all images are reviewed
+			# At the start of the round, set the overview to False
+			self.overview = False
 
 	def set_current_question(self, question_no):
 		# Puzzel round has specific question logic
