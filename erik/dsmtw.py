@@ -1,7 +1,6 @@
 import json
 import os.path
-import json
-import itertools
+import random
 
 from gameshow.gameshow import Gameshow
 
@@ -292,12 +291,17 @@ class DeSlimsteMens(Gameshow):
 		for index, picked_question in enumerate(picked_questions):
 			# Extract the keywords
 			picked_keywords += picked_question["keywords"]
-			# Repeat thrice, because each keyword corresponds to the same answer
+			# Repeat four times, because each keyword corresponds to the same answer
 			# We save the answer indices, not the answers themselves
-			picked_answer_indices += [ index ] * 3
+			picked_answer_indices += [ index ] * 4
 
 			# Also save the answers themselves (to display them)
 			picked_answers.append(picked_question["answer"])
+
+		keywords_with_indices = list(zip(picked_keywords, picked_answer_indices))
+		random.shuffle(keywords_with_indices)
+
+		picked_keywords, picked_answer_indices = zip(*keywords_with_indices)
 
 		self.current_question = { "keywords": picked_keywords,
 								  "answer_indices": picked_answer_indices,
