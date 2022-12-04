@@ -32,6 +32,7 @@ class DeSlimsteMens(Gameshow):
 
 		for i, player in enumerate(players):
 			self.players[i].name = player
+			self.players[i].points = 60
 
 	# We use the turn history to keep track of which players have already had a guess
 	# in this specific subround. This allows game-crucial mechanics such as keeping track
