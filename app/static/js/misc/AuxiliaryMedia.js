@@ -15,9 +15,12 @@ class AuxiliaryMedia {
 			container.classList.remove("d-none");
 		}
 
+		let auxiliaryMediaElement = document.getElementById("auxiliaryMedia");
 		if (state.current_question.image != null) {
-			document.getElementById("auxiliaryMedia").src = 
+			auxiliaryMediaElement.src = 
 				`/resources/${state.current_question.image}`;
+		} else {
+			auxiliaryMediaElement.src = "";
 		}
 	}
 }
