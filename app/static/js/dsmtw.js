@@ -31,6 +31,9 @@ class DeSlimsteMens extends Gameshow {
 			case "Open deur":
 				OpenDeur.renderState(state);
 				break;
+			case "Puzzel":
+				Puzzel.renderState(state);
+				break;
 		}
 
 		// Render scores
