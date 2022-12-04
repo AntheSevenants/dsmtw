@@ -192,6 +192,11 @@ class DeSlimsteMens(Gameshow):
 			# Keep track of what image we're currently looking at
 			self.reset_galerij_index()
 
+		# Collectief geheugen only
+		if self.current_round_text == "Collectief geheugen":
+			# Keep track of in what order seconds were awarded
+			self.awarded_seconds = []
+
 	def set_current_question(self, question_no):
 		# Puzzel round has specific question logic
 		if self.current_round_text == "Puzzel":
@@ -235,7 +240,11 @@ class DeSlimsteMens(Gameshow):
 				self.advance_galerij()
 		elif self.current_round_text == "Collectief geheugen":
 			# Point allocation for Collectief geheugen is dynamic
-			self.handle_list_answer_correct(answer_value, 10 * len(self.answers_found))
+			# Offset by one is needed because the answer still needs to be registered
+			seconds = 10 * (len(self.answers_found) + 1)
+
+			self.awarded_seconds.append(seconds)
+			self.handle_list_answer_correct(answer_value, seconds)
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":

@@ -22,6 +22,13 @@ class Answers {
 			if (state.answers_found.includes(i)) {
 				answerTextElement.classList.add("found");
 				answerScoreElement.classList.add("found");
+
+				// Dyanmic scoring for Collectief geheugen round
+				if (state.current_round_text == "Collectief geheugen") {
+					// We get the index of this answer in the found answers
+					let foundIndex = state.answers_found.indexOf(i);
+					answerScoreElement.innerHTML = state.awarded_seconds[foundIndex];
+				}
 			} else {
 				answerTextElement.onclick = () => {
 					dsmtw.correct(i);
