@@ -13,7 +13,8 @@ class DeSlimsteMens(Gameshow):
 
 		super().__init__("De Slimste Mens Ter Wereld", rounds, no_players)
 
-		self.settings = { "369_round_no": 15 }
+		self.settings = { "369_round_no": 15,
+						  "Galerij_round_no": 10 }
 
 		self.questions = [ [] for round_text in rounds ]
 
@@ -131,13 +132,17 @@ class DeSlimsteMens(Gameshow):
 	def advance_subround(self):
 		self.reset_turn_history()
 
+		if current_round_text == "Galerij" and self.overview == False:
+			self.galerij_index = 0
+			self.overview = True
+
 		# Find the end of a round
 		# The conditions differ based on the current round
 		if self.current_round_text == "3-6-9":
 			if self.current_subround == self.settings["369_round_no"] - 1:
 				self.advance_round()
 				return
-		elif self.current_round_text in [ "Open deur", "Puzzel" ]:
+		elif self.current_round_text in [ "Open deur", "Puzzel", "Galerij" ]:
 			if self.current_subround == self.no_players - 1:
 				self.advance_round()
 				return
@@ -180,6 +185,10 @@ class DeSlimsteMens(Gameshow):
 			# In this overview part, all images are reviewed
 			# At the start of the round, set the overview to False
 			self.overview = False
+
+			# Keep track of what image we're currently looking at
+			self.galerij_index = 0
+			self.infer_galerij_image()
 
 	def set_current_question(self, question_no):
 		# Puzzel round has specific question logic
@@ -317,3 +326,24 @@ class DeSlimsteMens(Gameshow):
 		self.current_question = { "keywords": picked_keywords,
 								  "answer_indices": picked_answer_indices,
 								  "answers": picked_answers }
+
+	#
+	# Galerij
+	#
+
+	def infer_galerij_image(self):
+		self.current_question["image"] = self.current_question["images"][self.galerij_index]
+
+	def advance_galerij(self):
+		# If we reached the end of a gallery
+		if self.galerij_index == self.settings["Galerij_round_no"] - 1:
+			# If we're still in the answering stage, pass the turn to another player
+			if not self.overview:
+				self.handle_list_answer_pass()
+			# If we're in the review stage, advance the subround
+			else:
+				self.advance_subround()
+			return
+
+		self.galerij_index += 1
+		self.infer_galerij_image()
