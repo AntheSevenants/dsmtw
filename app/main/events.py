@@ -21,6 +21,9 @@ def io_connect():
 def broadcast_state():
 	socketio.emit("state", game.as_dict())
 
+def broadcast_video(video_filename):
+	socketio.emit("video", video_filename)
+
 @socketio.on('advance', namespace=namespace)
 def io_advance():
 	game.advance()
@@ -47,3 +50,13 @@ def io_answer_pass():
 	print("Received answer pass")
 	game.answer_pass()
 	broadcast_state()
+
+@socketio.on('open_deur_choose', namespace=namespace)
+def io_open_deur_choose(questioneer_index):
+	print("Received Open deur choice:", questioneer_index)
+	video_filename = game.open_deur_choose(questioneer_index)
+
+	broadcast_state()
+
+	if video_filename:
+		broadcast_video(video_filename)

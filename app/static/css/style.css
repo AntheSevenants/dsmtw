@@ -255,10 +255,34 @@ button
 	font-size: 3vw;
 }
 
+.answers
+{
+	text-align: left;
+}
+
 .answer
 {
 	font-size: 2vw;
 	cursor: pointer;
+}
+
+.answer .text.found {
+	text-decoration: line-through;
+}
+
+.answer .score
+{
+	display: inline-block;
+	width: 5vw;
+	visibility: hidden;
+
+	color: #ffa930;
+
+	text-align: center;
+}
+
+.answer .score.found {
+	visibility: visible;
 }
 
 /* Bootstrap resets */
