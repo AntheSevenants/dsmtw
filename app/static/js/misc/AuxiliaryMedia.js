@@ -7,12 +7,7 @@ class AuxiliaryMedia {
 			return;
 		}
 
-		if (!("image" in state.current_question)) {
-			return;
-		}
-
-
-		if (!("video" in state.current_question)) {
+		if (!("image" in state.current_question) && !("video" in state.current_question)) {
 			return;
 		}
 
