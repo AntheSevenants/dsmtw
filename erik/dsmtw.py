@@ -17,7 +17,9 @@ class DeSlimsteMens(Gameshow):
 
 		self.questions = [ [] for round_text in rounds ]
 
+		# Load the questions for each round
 		for i, round_text in enumerate(self.rounds):
+			# Each question set should be named "round.json"
 			questions_json_path = os.path.join(questions_directory, f"{round_text}.json")
 			if os.path.exists(questions_json_path):
 				with open(questions_json_path, "rt") as reader:
@@ -25,14 +27,22 @@ class DeSlimsteMens(Gameshow):
 			else:
 				print(f"Questions for round {round_text} not found!")
 
+		# Start off by setting the current question to the first question
+		# This, of course, assumes we're starting in 3-6-9
 		self.set_current_question(0)
+		# Available questions will be used for Open deur, since there, a player
+		# is free to choose whichever question they want
 		self.available_questions = []
 
+		# Used to signal whether it's time to answer a specific question
 		self.answer_time = False
 
+		# The leftmost player should start
 		self.set_active_player(0)
 		self.reset_turn_history()
 
+		# Let's award 60 seconds to every player, which they'll need in the game
+		# ...and maybe also in the finals!
 		for i, player in enumerate(players):
 			self.players[i].name = player
 			self.players[i].points = 60
@@ -46,6 +56,10 @@ class DeSlimsteMens(Gameshow):
 	# of who can complement an answer first
 	def reset_turn_history(self):
 		self.turn_history = []
+
+	# The same as above, but for EXTERNAL turns
+	def reset_player_history(self):
+		self.player_history = []
 
 	# Add the index of the current player to the turn history
 	def add_current_player_to_turn_history(self):
@@ -76,17 +90,22 @@ class DeSlimsteMens(Gameshow):
 		else:
 			self.set_active_player(self.turn_history[-1] + 1)
 
+	# Do logical turn advancement based on seconds
+	# The player with the fewest seconds who did not already have a go takes the turn
 	def advance_turn_logically(self, history=None):
+		# "history" can either be the EXTERNAL turn history or the INTERNAL turn history
 		if history is None:
 			history = self.turn_history
 
 		current_lowest_score = float('inf')
 		next_player_index = None
+		# Loop over all players and find out which player conforms to our conditions
 		for player_index, player in enumerate(self.players):
 			if player.points < current_lowest_score and player_index not in history:
 				current_lowest_score = player.points
 				next_player_index = player_index
 
+		# Set this player as the current active player, and add them to the history
 		self.set_active_player(next_player_index)
 		history.append(next_player_index)
 
@@ -105,7 +124,8 @@ class DeSlimsteMens(Gameshow):
 		# Open deur does not have a rigid question structure
 		# This makes my life much more difficult. Oh well
 		elif self.current_round_text == "Open deur":
-			self.player_history = []
+			# Player history 
+			self.reset_player_history()
 
 			# Player with least seconds can start
 			# Advance GLOBAL turn (= turn for who gets a questioneer)
@@ -118,12 +138,16 @@ class DeSlimsteMens(Gameshow):
 
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
+		# Find the end of a round
+		# The conditions differ based on the current round
 		if self.current_round_text == "3-6-9":
 			if self.current_subround == self.settings["369_round_no"] - 1:
 				self.advance_round()
+				return
 		elif self.current_round_text == "Open deur":
 			if self.current_subround == self.no_players - 1:
 				self.advance_round()
+				return
 
 			# We have to reset the current question, else the questioneer face will
 			# remain visible on the screen
@@ -135,7 +159,7 @@ class DeSlimsteMens(Gameshow):
 		super().advance_subround()
 
 		# If answer time is True, the question has been asked 
-		#and answering is allowed
+		# and answering is allowed
 		self.answer_time = False
 		self.reset_answers_found()
 
@@ -149,6 +173,7 @@ class DeSlimsteMens(Gameshow):
 	def set_current_question(self, question_no):
 		self.current_question = self.questions[self.current_round][question_no]
 
+	# Used only in Open deur because question order is free there
 	def set_available_questions(self):
 		self.available_questions = self.questions[self.current_round]
 		self.question_history = []
