@@ -144,7 +144,8 @@ class DeSlimsteMens(Gameshow):
 			if self.current_subround == self.settings["369_round_no"] - 1:
 				self.advance_round()
 				return
-		elif self.current_round_text in [ "Open deur", "Puzzel", "Galerij" ]:
+		elif self.current_round_text in [ "Open deur", "Puzzel", "Galerij",
+										  "Collectief geheugen" ]:
 			if self.current_subround == self.no_players - 1:
 				self.advance_round()
 				return
@@ -166,13 +167,13 @@ class DeSlimsteMens(Gameshow):
 		self.reset_answers_found()
 
 		# Does NOT apply to Open deur, because the question order is free for this round
-		if self.current_round_text in [ "3-6-9", "Puzzel", "Galerij" ]:
+		if self.current_round_text in [ "3-6-9", "Puzzel", "Galerij", "Collectief geheugen" ]:
 			# We prepare the question corresponding to the index of the 
 			# current subround. E.g. subround 0 <=> question 0 etc.
 			self.set_current_question(self.current_subround)
 
 		# The following rounds use second-based logic to determine whose turn it is
-		if self.current_round_text in [ "Open deur", "Puzzel", "Galerij" ]:
+		if self.current_round_text in [ "Open deur", "Puzzel", "Galerij", "Collectief geheugen" ]:
 			# Player with the least seconds can start
 			# We decide on the GLOBAL turn first (*not* complement turns)
 			self.advance_turn_logically(history=self.player_history)
@@ -232,12 +233,15 @@ class DeSlimsteMens(Gameshow):
 			# Only advance if the primary player is answering
 			if len(self.turn_history) == 1:
 				self.advance_galerij()
+		elif self.current_round_text == "Collectief geheugen":
+			# Point allocation for Collectief geheugen is dynamic
+			self.handle_list_answer_correct(answer_value, 10 * len(self.answers_found))
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":
 			self.handle_369_answer_pass()
 			return
-		elif self.current_round_text in [ "Open deur", "Puzzel" ]:
+		elif self.current_round_text in [ "Open deur", "Puzzel", "Collectief geheugen" ]:
 			self.handle_list_answer_pass()
 			return
 		elif self.current_round_text == "Galerij":
