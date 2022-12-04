@@ -117,32 +117,21 @@ class DeSlimsteMens(Gameshow):
 	# Advance round
 	def advance_round(self):
 		super().advance_round()
-
-		self.reset_answers_found()
 		
 		# Player history 
 		self.reset_player_history()
 
-		if self.current_round_text in [ "3-6-9", "Puzzel" ]:
-			self.set_current_question(0)
-		
-		# Open deur does not have a rigid question structure
-		# This makes my life much more difficult. Oh well
-		if self.current_round_text in [ "Open deur", "Puzzel" ]:
+		self.general_advance()
 
-			# Player with least seconds can start
-			# Advance GLOBAL turn (= turn for who gets a questioneer)
-			self.advance_turn_logically(history=self.player_history)
-			# Advance INTERNAL turn (= turn for who gets to answer the questioneer question)
-			# Will default to the same player as the GLOBAL turn
-			self.advance_turn_logically()
-
+		# Open deur only
 		if self.current_round_text == "Open deur":
 			# Broadcast the available questioneers
-			self.set_available_questions()			
+			self.set_available_questions()
 
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
+		self.reset_turn_history()
+
 		# Find the end of a round
 		# The conditions differ based on the current round
 		if self.current_round_text == "3-6-9":
@@ -158,22 +147,33 @@ class DeSlimsteMens(Gameshow):
 			# remain visible on the screen
 			self.current_question = None
 
-			# We advance the turn within the *player* history, not within the *turn* history
-			self.advance_turn_logically(history=self.player_history)
-
 		super().advance_subround()
 
-		# If answer time is True, the question has been asked 
-		# and answering is allowed
+		self.general_advance()
+
+		# If answer time is True, the question has been asked and answering is allowed
 		self.answer_time = False
+
+	# Logic shared by round advance and subround advance
+	def general_advance(self):
+		# We reset the found answers
 		self.reset_answers_found()
 
-		# Does NOT apply to Open deur, because the question order is free for this round
-		if self.current_round_text != "Open deur":
-			# Set the current question corresponding to the current subround!
+	# Does NOT apply to Open deur, because the question order is free for this round
+		if self.current_round_text in [ "3-6-9", "Puzzel" ]:
+			# We prepare the question corresponding to the index of the 
+			# current subround. E.g. subround 0 <=> question 0 etc.
 			self.set_current_question(self.current_subround)
-		
-		self.reset_turn_history()
+
+		# The following rounds use second-based logic to determine whose turn it is
+		if self.current_round_text in [ "Open deur", "Puzzel" ]:
+			# Player with the least seconds can start
+			# We decide on the GLOBAL turn first (*not* complement turns)
+			self.advance_turn_logically(history=self.player_history)
+			# Then, we set the INTERNAL turn (= same turn used for complement turns)
+			# We cannot ask to advance the turn logically for the turn history, 
+			# because we will get a different result and it'll ruin our day
+			self.turn_history.append(self.active_player_index)
 
 	def set_current_question(self, question_no):
 		# Puzzel round has specific question logic
@@ -260,6 +260,7 @@ class DeSlimsteMens(Gameshow):
 
 		if len(self.answers_found) == 4:
 			self.clock_stop()
+			self.advance_subround()
 
 	def handle_open_deur_answer_pass(self):
 		print("Turn history", self.turn_history)
