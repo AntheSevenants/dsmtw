@@ -39,26 +39,6 @@ class OpenDeur {
 				document.getElementById("round_Open deur_question").innerHTML = 
 					state.current_question.question;
 			}
-
-			for (let i = 0; i < state.current_question.answers.length; i++) {
-				let answer = state.current_question.answers[i];
-
-				let answerTextElement = document.getElementById(`round_Open deur_answer_${i}`);
-				answerTextElement.innerHTML = answer;
-				answerTextElement.classList.remove("found");
-
-				let answerScoreElement = document.getElementById(`round_Open deur_answer_score_${i}`);
-				answerScoreElement.classList.remove("found");
-
-				if (state.answers_found.includes(i)) {
-					answerTextElement.classList.add("found");
-					answerScoreElement.classList.add("found");
-				} else {
-					answerTextElement.onclick = () => {
-						dsmtw.correct(i);
-					};
-				}
-			}
 		}
 	}
 }

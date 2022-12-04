@@ -1,5 +1,6 @@
 class Puzzel {
 	static renderState(state) {
+		// Puzzle matrix
 		let answerColours = [ "teal", "yellow", "green" ];
 
 		for (let i = 0; i < state.current_question.keywords.length; i++) {
