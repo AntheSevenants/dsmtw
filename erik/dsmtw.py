@@ -5,7 +5,7 @@ import random
 from gameshow.gameshow import Gameshow
 
 class DeSlimsteMens(Gameshow):
-	def __init__(self, players, questions_directory):
+	def __init__(self, players, questions_directory, finale_rules=True):
 		rounds = [ "3-6-9", "Open deur", "Puzzel", "Galerij", "Collectief geheugen",
 				   "Finale" ]
 
@@ -47,6 +47,10 @@ class DeSlimsteMens(Gameshow):
 		for i, player in enumerate(players):
 			self.players[i].name = player
 			self.players[i].points = 60
+			self.players[i].finalist = False
+
+		# Keep track of whether we're playing with the finale episode rules
+		self.finale_rules = finale_rules
 
 	# 
 	# Turn taking
@@ -128,6 +132,10 @@ class DeSlimsteMens(Gameshow):
 		if self.current_round_text == "Open deur":
 			# Broadcast the available questioneers
 			self.set_available_questions()
+
+		# Finale
+		if self.current_round_text == "Finale":
+			self.prepare_finale()
 
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
@@ -384,3 +392,30 @@ class DeSlimsteMens(Gameshow):
 
 		self.galerij_index += 1
 		self.infer_galerij_image()
+
+	#
+	# Collectief geheugen
+	# 
+
+	# 
+	# Finale
+	# 
+
+	def prepare_finale(self):
+		# Get all scores
+		scores = list(map(lambda player: player.points, self.players))
+
+		# Get all indices
+		indices = list(range(0, self.no_players))
+
+		# Combine them into tuples
+		scores_with_indices = list(zip(scores, indices))
+
+		# Sort the tuples
+		# If we're playing with regular rules, the worst two players play the Finale round
+		# If we're playing with final episode rules, the best two players play the Finale round
+		scores_with_indices.sort(reverse=self.finale_rules)
+
+		# Get the two first players from the array and make them finalists
+		self.players[scores_with_indices[0][1]].finalist = True
+		self.players[scores_with_indices[1][1]].finalist = True
