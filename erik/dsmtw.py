@@ -314,7 +314,8 @@ class DeSlimsteMens(Gameshow):
 		print("Turn history", self.turn_history)
 
 		# If no one is left to guess, move on to the next questioneer choice
-		if len(self.turn_history) == self.no_players:
+		if (len(self.turn_history) == self.no_players) or \
+			(self.current_round_text == "Finale" and len(self.turn_history) == 2):
 			print("Player count", self.no_players)
 
 			self.advance_subround()
