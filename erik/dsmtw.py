@@ -106,6 +106,10 @@ class DeSlimsteMens(Gameshow):
 		next_player_index = None
 		# Loop over all players and find out which player conforms to our conditions
 		for player_index, player in enumerate(self.players):
+			# Ignore player if Finale and not a finalist
+			if self.current_round_text == "Finale" and not player.finalist:
+				continue
+
 			if player.points < current_lowest_score and player_index not in history:
 				current_lowest_score = player.points
 				next_player_index = player_index
@@ -126,17 +130,17 @@ class DeSlimsteMens(Gameshow):
 		self.reset_player_history()
 		self.reset_turn_history()
 
+		# Finale
+		# Needs to come before general advance, else no finalists will be found
+		if self.current_round_text == "Finale":
+			self.prepare_finale()
+
 		self.general_advance()
 
 		# Open deur only
 		if self.current_round_text == "Open deur":
 			# Broadcast the available questioneers
 			self.set_available_questions()
-
-		# Finale
-		if self.current_round_text == "Finale":
-			self.prepare_finale()
-
 	# Advance the subround, and clear the turn history
 	def advance_subround(self):
 		self.reset_turn_history()
@@ -175,13 +179,15 @@ class DeSlimsteMens(Gameshow):
 		self.reset_answers_found()
 
 		# Does NOT apply to Open deur, because the question order is free for this round
-		if self.current_round_text in [ "3-6-9", "Puzzel", "Galerij", "Collectief geheugen" ]:
+		if self.current_round_text in [ "3-6-9", "Puzzel", "Galerij", "Collectief geheugen",
+										"Finale" ]:
 			# We prepare the question corresponding to the index of the 
 			# current subround. E.g. subround 0 <=> question 0 etc.
 			self.set_current_question(self.current_subround)
 
 		# The following rounds use second-based logic to determine whose turn it is
-		if self.current_round_text in [ "Open deur", "Puzzel", "Galerij", "Collectief geheugen" ]:
+		if self.current_round_text in [ "Open deur", "Puzzel", "Galerij", "Collectief geheugen",
+										"Finale" ]:
 			# Player with the least seconds can start
 			# We decide on the GLOBAL turn first (*not* complement turns)
 			self.advance_turn_logically(history=self.player_history)
@@ -253,12 +259,14 @@ class DeSlimsteMens(Gameshow):
 
 			self.awarded_seconds.append(seconds)
 			self.handle_list_answer_correct(answer_value, seconds)
+		elif self.current_round_text == "Finale":
+			self.handle_list_answer_correct(answer_value, 20)
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":
 			self.handle_369_answer_pass()
 			return
-		elif self.current_round_text in [ "Open deur", "Puzzel", "Collectief geheugen" ]:
+		elif self.current_round_text in [ "Open deur", "Puzzel", "Collectief geheugen", "Finale" ]:
 			self.handle_list_answer_pass()
 			return
 		elif self.current_round_text == "Galerij":
@@ -273,6 +281,13 @@ class DeSlimsteMens(Gameshow):
 	def award_seconds(self, seconds):
 		self.active_player.points += seconds
 
+	def deduct_seconds(self, seconds):
+		# We get the index of the target player by...
+		# - getting the index of the current player
+		# - then getting the index of the only other player in that list
+		target_player_index = abs(self.finalist_player_indices.index(self.active_player_index) - 1)
+		self.players[target_player_index].points -= seconds
+
 	def handle_list_answer_correct(self, answer_index, awarded_seconds):
 		if answer_index in self.answers_found:
 			print("Could not register answer; answer already found")
@@ -280,7 +295,12 @@ class DeSlimsteMens(Gameshow):
 
 		# Add answer to found answer list
 		self.answers_found.append(answer_index)
-		self.award_seconds(awarded_seconds)
+
+		if self.current_round_text != "Finale":
+			self.award_seconds(awarded_seconds)
+		# In Finale, we remove seconds
+		else:
+			self.deduct_seconds(awarded_seconds)
 
 		if len(self.answers_found) == len(self.current_question["answers"]):
 			self.clock_stop()
@@ -416,6 +436,9 @@ class DeSlimsteMens(Gameshow):
 		# If we're playing with final episode rules, the best two players play the Finale round
 		scores_with_indices.sort(reverse=self.finale_rules)
 
+		self.finalist_player_indices = [ scores_with_indices[0][1],
+										 scores_with_indices[1][1] ]
+
 		# Get the two first players from the array and make them finalists
-		self.players[scores_with_indices[0][1]].finalist = True
-		self.players[scores_with_indices[1][1]].finalist = True
+		self.players[self.finalist_player_indices[0]].finalist = True
+		self.players[self.finalist_player_indices[1]].finalist = True
