@@ -44,6 +44,10 @@ class DeSlimsteMens extends Gameshow {
 				CollectiefGeheugen.renderState(state);
 				Answers.renderAnswers(state);
 				break;
+			case "Finale":
+				Finale.renderState(state);
+				Answers.renderAnswers(state);
+				break;
 		}
 
 		// Render scores
