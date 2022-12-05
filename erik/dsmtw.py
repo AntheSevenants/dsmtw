@@ -288,6 +288,10 @@ class DeSlimsteMens(Gameshow):
 		target_player_index = abs(self.finalist_player_indices.index(self.active_player_index) - 1)
 		self.players[target_player_index].points -= seconds
 
+		if self.players[target_player_index].points <= 0:
+			self.players[target_player_index].points = 0
+			self.end_game()
+
 	def handle_list_answer_correct(self, answer_index, awarded_seconds):
 		if answer_index in self.answers_found:
 			print("Could not register answer; answer already found")
