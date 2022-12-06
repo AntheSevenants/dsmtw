@@ -2,6 +2,13 @@ class DeSlimsteMens extends Gameshow {
 	constructor() {
 		super();
 
+		this.websocket.on('points_awarded', (pointsAwarded) => { 
+			this.pointsAwarded(pointsAwarded); });
+		this.websocket.on('clock_start', () => { 
+			this.clockStarted(); });
+		this.websocket.on('clock_stop', () => { 
+			this.clockStopped(); });
+
 		this._currentSubroundText = null;
 
 		this.scoreDomBuilt = false;
@@ -9,10 +16,22 @@ class DeSlimsteMens extends Gameshow {
 		this.scores = new Scores();
 
 		this.latestState = null;
-		this.timer = null;
 	}
 
 	renderState(state) {
+		// First state render
+		if (this.latestState == null) {
+			this.latestState = state;
+
+			// We need to make a timer so we can cancel it, basically
+			this.setupTimer();
+
+			// Timer could have started before we loaded the page!
+			if (state.timer_running) {
+				this.timer.start();
+			}
+		}
+
 		// Save the latest state
 		this.latestState = state;
 
@@ -57,7 +76,10 @@ class DeSlimsteMens extends Gameshow {
 		}
 
 		// Render scores
-		this.scores.renderState(state);
+		// Don't do this if a timer is running -> unreliable!
+		if (!this.timer.running) {
+			this.scores.renderState(state);
+		}
 
 		// Render auxiliary media (if necessary)
 		AuxiliaryMedia.renderState(state);
@@ -96,18 +118,30 @@ class DeSlimsteMens extends Gameshow {
 		this.websocket.emit("open_deur_choose", questioneerIndex);
 	}
 
-	clockStart()
-	{
-		this.websocket.emit("clock_start");
+	pointsAwarded(pointsAwarded) {
+		this.timer.currentPoints += pointsAwarded;
+	}
+
+	setupTimer() {
 		this.timer = new Timer(this.scores,
 							   this.latestState.active_player_index,
 							   this.latestState.active_player.points);
+	}
+
+	clockStart() {
+		this.websocket.emit("clock_start");
+	}
+
+	clockStarted() {
+		this.setupTimer();
 		this.timer.start();
 	}
 
-	clockStop()
-	{
+	clockStop() {
 		this.websocket.emit("clock_stop");
+	}
+
+	clockStopped() {
 		this.timer.stop();
 	}
 }

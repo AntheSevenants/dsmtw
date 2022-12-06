@@ -42,7 +42,8 @@ def io_advance_subround():
 @socketio.on('answer_correct', namespace=namespace)
 def io_answer_correct(answer_value):
 	print("Received answer:", answer_value)
-	game.answer_correct(answer_value)
+	points_awarded = game.answer_correct(answer_value)
+	socketio.emit("points_awarded", points_awarded)
 	broadcast_state()
 
 @socketio.on('answer_pass', namespace=namespace)
@@ -53,13 +54,13 @@ def io_answer_pass():
 
 @socketio.on('clock_start', namespace=namespace)
 def io_clock_start():
+	socketio.emit("clock_start")
 	game.clock_start()
-	broadcast_state()
 
 @socketio.on('clock_stop', namespace=namespace)
 def io_clock_stop():
+	socketio.emit("clock_stop")
 	game.clock_stop()
-	broadcast_state()
 
 @socketio.on('open_deur_choose', namespace=namespace)
 def io_open_deur_choose(questioneer_index):

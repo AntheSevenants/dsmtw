@@ -1,20 +1,27 @@
 class Timer {
-	constructor(scores,activePlayerIndex, startingPoints) {
+	constructor(scores, activePlayerIndex, startingPoints) {
 		//this.startTime = this.getEpoch();
 
 		this.scores = scores;
 		this.activePlayerIndex = activePlayerIndex;
 		this.currentPoints = startingPoints;
 
+		// Parent can check whether the timer isr unning
+		this.running = false;
+
 		this.interval = null;
 	}
 
 	start() {
 		this.interval = setInterval(() => { this.tick(); }, 1000);
+		this.running = true;
 	}
 
 	stop() {
-		clearInterval(this.interval);
+		if (this.interval != null) {
+			clearInterval(this.interval);
+		}
+		this.running = false;
 	}
 
 	tick() {

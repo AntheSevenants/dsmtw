@@ -54,7 +54,7 @@ class DeSlimsteMens(Gameshow):
 		self.finale_rules = finale_rules
 
 		# Seconds clock
-		self.timer_clock = None;
+		self.timer_running = False
 
 	# 
 	# Turn taking
@@ -235,11 +235,13 @@ class DeSlimsteMens(Gameshow):
 	def clock_start(self):
 		print("Timer started")
 		self.timer_start = time.time()
+		self.timer_running = True
 
 	def clock_stop(self):
 		print("Timer halted")
 		# Deduct the amount of seconds that have passed since timer was started
 		self.active_player.points -= round(time.time() - self.timer_start)
+		self.timer_running = False
 
 	#
 	# Answering
@@ -250,11 +252,14 @@ class DeSlimsteMens(Gameshow):
 			self.handle_369_answer_correct()
 			return
 		elif self.current_round_text == "Open deur":
-			self.handle_list_answer_correct(answer_value, 20)
+			points_awarded = 20
+			self.handle_list_answer_correct(answer_value, points_awarded)
 		elif self.current_round_text == "Puzzel":
-			self.handle_list_answer_correct(answer_value, 30)
+			points_awarded = 30
+			self.handle_list_answer_correct(answer_value, points_awarded)
 		elif self.current_round_text == "Galerij":
-			self.handle_list_answer_correct(answer_value, 10)
+			points_awarded = 10
+			self.handle_list_answer_correct(answer_value, points_awarded)
 
 			# Only advance if the primary player is answering
 			if len(self.turn_history) == 1:
@@ -262,12 +267,15 @@ class DeSlimsteMens(Gameshow):
 		elif self.current_round_text == "Collectief geheugen":
 			# Point allocation for Collectief geheugen is dynamic
 			# Offset by one is needed because the answer still needs to be registered
-			seconds = 10 * (len(self.answers_found) + 1)
+			points_awarded = 10 * (len(self.answers_found) + 1)
 
-			self.awarded_seconds.append(seconds)
-			self.handle_list_answer_correct(answer_value, seconds)
+			self.awarded_seconds.append(points_awarded)
+			self.handle_list_answer_correct(answer_value, points_awarded)
 		elif self.current_round_text == "Finale":
-			self.handle_list_answer_correct(answer_value, 20)
+			points_awarded = 20
+			self.handle_list_answer_correct(answer_value, points_awarded)
+
+		return points_awarded
 
 	def answer_pass(self):
 		if self.current_round_text == "3-6-9":
