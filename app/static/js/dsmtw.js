@@ -89,6 +89,16 @@ class DeSlimsteMens extends Gameshow {
 	openDeurChoose(questioneerIndex) {
 		this.websocket.emit("open_deur_choose", questioneerIndex);
 	}
+
+	clockStart()
+	{
+		this.websocket.emit("clock_start");
+	}
+
+	clockStop()
+	{
+		this.websocket.emit("clock_stop");
+	}
 }
 
 dsmtw = new DeSlimsteMens();
