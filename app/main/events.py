@@ -51,6 +51,16 @@ def io_answer_pass():
 	game.answer_pass()
 	broadcast_state()
 
+@socketio.on('clock_start', namespace=namespace)
+def io_clock_start():
+	game.clock_start()
+	broadcast_state()
+
+@socketio.on('clock_stop', namespace=namespace)
+def io_clock_stop():
+	game.clock_stop()
+	broadcast_state()
+
 @socketio.on('open_deur_choose', namespace=namespace)
 def io_open_deur_choose(questioneer_index):
 	print("Received Open deur choice:", questioneer_index)
