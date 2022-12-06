@@ -1,6 +1,7 @@
 import json
 import os.path
 import random
+import time
 
 from gameshow.gameshow import Gameshow
 
@@ -51,6 +52,9 @@ class DeSlimsteMens(Gameshow):
 
 		# Keep track of whether we're playing with the finale episode rules
 		self.finale_rules = finale_rules
+
+		# Seconds clock
+		self.timer_clock = None;
 
 	# 
 	# Turn taking
@@ -229,10 +233,13 @@ class DeSlimsteMens(Gameshow):
 	#
 
 	def clock_start(self):
-		pass
+		print("Timer started")
+		self.timer_start = time.time()
 
 	def clock_stop(self):
-		pass
+		print("Timer halted")
+		# Deduct the amount of seconds that have passed since timer was started
+		self.active_player.points -= round(time.time() - self.timer_start)
 
 	#
 	# Answering
