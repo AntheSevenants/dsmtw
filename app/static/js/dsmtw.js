@@ -7,9 +7,15 @@ class DeSlimsteMens extends Gameshow {
 		this.scoreDomBuilt = false;
 
 		this.scores = new Scores();
+
+		this.latestState = null;
+		this.timer = null;
 	}
 
 	renderState(state) {
+		// Save the latest state
+		this.latestState = state;
+
 		// Pass to super method
 		super.renderState(state);
 
@@ -93,11 +99,16 @@ class DeSlimsteMens extends Gameshow {
 	clockStart()
 	{
 		this.websocket.emit("clock_start");
+		this.timer = new Timer(this.scores,
+							   this.latestState.active_player_index,
+							   this.latestState.active_player.points);
+		this.timer.start();
 	}
 
 	clockStop()
 	{
 		this.websocket.emit("clock_stop");
+		this.timer.stop();
 	}
 }
 

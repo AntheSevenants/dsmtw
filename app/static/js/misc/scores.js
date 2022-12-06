@@ -47,8 +47,7 @@ class Scores {
 
 		let playerIndex = 0;
 		state.players.forEach(player => {
-			document.getElementById(this.getScoreElementName(playerIndex)).innerHTML = 
-				player.points;
+			this.adjustPlayerPoints(playerIndex, player.points);
 
 			let circle = document.getElementById(this.getCircleElementName(playerIndex));
 			circle.classList.remove("turn");
@@ -61,6 +60,11 @@ class Scores {
 		});
 
 
+	}
+
+	adjustPlayerPoints(playerIndex, points) {
+		document.getElementById(this.getScoreElementName(playerIndex)).innerHTML = 
+				points;
 	}
 
 	getCircleElementName(playerIndex) {
