@@ -157,6 +157,10 @@ class DeSlimsteMens extends Gameshow {
 		document.getElementById("button_clock_toggle").innerHTML = 
 			timer_running ? "Stop klok" : "Start klok";
 	}
+
+	releaseAdvance() {
+		this.websocket.emit("release_advance");
+	}
 }
 
 dsmtw = new DeSlimsteMens();

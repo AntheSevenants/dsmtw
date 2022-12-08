@@ -39,6 +39,11 @@ def io_advance_subround():
 	game.advance_subround()
 	broadcast_state()
 
+@socketio.on('release_advance', namespace=namespace)
+def io_release_advance():
+	game.release_advance()
+	broadcast_state()
+
 @socketio.on('answer_correct', namespace=namespace)
 def io_answer_correct(answer_value):
 	print("Received answer:", answer_value)

@@ -100,6 +100,13 @@ button
     font-size: 1.15rem;
 }
 
+button.float {
+	position: fixed;
+
+	right: 1em;
+	bottom: 1em;
+}
+
 /* Lay-out */
 
 .container {
