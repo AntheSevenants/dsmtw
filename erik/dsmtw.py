@@ -56,6 +56,12 @@ class DeSlimsteMens(Gameshow):
 		# Seconds clock
 		self.timer_running = False
 
+		# Keep track of what state the game should advance in
+		# Instead of immediately advancing the game when all answers have been
+		# given / no turns are left / there are no more subrounds, we hold the current
+		# screen for a little longer so the host can still review the answers.
+		self.to_advance = None
+
 	# 
 	# Turn taking
 	# 
@@ -89,7 +95,7 @@ class DeSlimsteMens(Gameshow):
 			# Then advance the subround
 			# This must be done *after* setting the active player, because
 			# advancing the subround empties the turn history
-			self.advance_subround()
+			self.to_advance = "subround"
 			return
 
 		# If we need to advance the turn, but we need to "wrap" to the first player
@@ -158,12 +164,12 @@ class DeSlimsteMens(Gameshow):
 		# The conditions differ based on the current round
 		if self.current_round_text == "3-6-9":
 			if self.current_subround == self.settings["369_round_no"] - 1:
-				self.advance_round()
+				self.to_advance = "round"
 				return
 		elif self.current_round_text in [ "Open deur", "Puzzel", "Galerij",
 										  "Collectief geheugen" ]:
 			if self.current_subround == self.no_players - 1:
-				self.advance_round()
+				self.to_advance = "round"
 				return
 
 			# We have to reset the current question, else the questioneer face will
@@ -227,6 +233,15 @@ class DeSlimsteMens(Gameshow):
 	def set_available_questions(self):
 		self.available_questions = self.questions[self.current_round]
 		self.question_history = []
+
+	# Used to *actually* advance after host review
+	def release_advance(self):
+		if self.to_advance == "subround":
+			self.advance_subround()
+		elif self.to_advance == "round":
+			self.advance_round()
+
+		self.to_advance = None
 
 	# 
 	# Clock
@@ -326,7 +341,7 @@ class DeSlimsteMens(Gameshow):
 
 		if len(self.answers_found) == len(self.current_question["answers"]):
 			self.clock_stop()
-			self.advance_subround()
+			self.to_advance = "subround"
 
 	def handle_list_answer_pass(self):
 		print("Turn history", self.turn_history)
@@ -336,7 +351,7 @@ class DeSlimsteMens(Gameshow):
 			(self.current_round_text == "Finale" and len(self.turn_history) == 2):
 			print("Player count", self.no_players)
 
-			self.advance_subround()
+			self.to_advance = "subround"
 			return
 
 		self.advance_turn_logically()
@@ -351,7 +366,7 @@ class DeSlimsteMens(Gameshow):
 			self.award_seconds(10)
 
 		# Then, move on to the next question
-		self.advance_subround()
+		self.to_advance = "subround"
 
 	def handle_369_answer_pass(self):
 		self.add_current_player_to_turn_history()
