@@ -105,6 +105,8 @@ button.float {
 
 	right: 1em;
 	bottom: 1em;
+
+	display: none;
 }
 
 /* Lay-out */
@@ -296,4 +298,13 @@ button.float {
 .game p {
 	margin: 0;
 	padding: 0;
+}
+
+/* Unadvanced logic */
+.unadvanced button.float {
+	display: block;
+}
+
+.unadvanced .controls {
+	display: none;
 }

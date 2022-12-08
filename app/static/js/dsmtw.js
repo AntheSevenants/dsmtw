@@ -48,6 +48,12 @@ class DeSlimsteMens extends Gameshow {
 		// ..then only show the current one
 		document.getElementById(`round_${state.current_round_text}`).classList.add("current");
 
+		document.body.classList.remove("unadvanced");
+		// Add a specific class if to_advance is not null
+		if (state.to_advance != null) {
+			document.body.classList.add("unadvanced");
+		}
+
 		// Round-specific rendering
 		switch (state.current_round_text) {
 			case "3-6-9":
