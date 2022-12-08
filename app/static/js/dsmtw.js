@@ -32,6 +32,12 @@ class DeSlimsteMens extends Gameshow {
 			}
 		}
 
+		// If the clock has been stopped server side (this is possible when all answers were found),
+		// we need to stop our local clock
+		if (!state.timer_running && this.timer.running) {
+			this.clockStopped();
+		}
+
 		// Save the latest state
 		this.latestState = state;
 
