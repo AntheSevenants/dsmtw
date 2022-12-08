@@ -164,12 +164,12 @@ class DeSlimsteMens(Gameshow):
 		# The conditions differ based on the current round
 		if self.current_round_text == "3-6-9":
 			if self.current_subround == self.settings["369_round_no"] - 1:
-				self.to_advance = "round"
+				self.advance_round()
 				return
 		elif self.current_round_text in [ "Open deur", "Puzzel", "Galerij",
 										  "Collectief geheugen" ]:
 			if self.current_subround == self.no_players - 1:
-				self.to_advance = "round"
+				self.advance_round()
 				return
 
 			# We have to reset the current question, else the questioneer face will
