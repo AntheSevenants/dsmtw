@@ -237,11 +237,14 @@ class DeSlimsteMens(Gameshow):
 		self.timer_start = time.time()
 		self.timer_running = True
 
-	def clock_stop(self):
+	def clock_stop(self, pass_turn=True):
 		print("Timer halted")
 		# Deduct the amount of seconds that have passed since timer was started
 		self.active_player.points -= round(time.time() - self.timer_start)
 		self.timer_running = False
+
+		if pass_turn:
+			self.answer_pass()
 
 	#
 	# Answering
