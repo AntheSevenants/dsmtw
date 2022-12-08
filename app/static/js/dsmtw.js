@@ -81,6 +81,10 @@ class DeSlimsteMens extends Gameshow {
 			this.scores.renderState(state);
 		}
 
+		// Toggle the clock button UI
+		// "Start klok" and "Stop klok"
+		this.setClockUI(state.timer_running);
+
 		// Render auxiliary media (if necessary)
 		AuxiliaryMedia.renderState(state);
 
@@ -143,6 +147,15 @@ class DeSlimsteMens extends Gameshow {
 
 	clockStopped() {
 		this.timer.stop();
+	}
+
+	clockToggle() {
+		this.websocket.emit("clock_toggle");
+	}
+
+	setClockUI(timer_running) {
+		document.getElementById("button_clock_toggle").innerHTML = 
+			timer_running ? "Stop klok" : "Start klok";
 	}
 }
 

@@ -56,11 +56,20 @@ def io_answer_pass():
 def io_clock_start():
 	socketio.emit("clock_start")
 	game.clock_start()
+	broadcast_state()
 
 @socketio.on('clock_stop', namespace=namespace)
 def io_clock_stop():
 	socketio.emit("clock_stop")
 	game.clock_stop()
+	broadcast_state()
+
+@socketio.on('clock_toggle', namespace=namespace)
+def io_clock_toggle():
+	if not game.timer_running:
+		io_clock_start()
+	else:
+		io_clock_stop()
 
 @socketio.on('open_deur_choose', namespace=namespace)
 def io_open_deur_choose(questioneer_index):
