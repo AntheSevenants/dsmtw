@@ -62,6 +62,9 @@ class DeSlimsteMens(Gameshow):
 		# screen for a little longer so the host can still review the answers.
 		self.to_advance = None
 
+		# Only show the clock toggle on the client when necessary
+		self.clock_visible = False
+
 	# 
 	# Turn taking
 	# 
@@ -139,6 +142,10 @@ class DeSlimsteMens(Gameshow):
 		# Player history 
 		self.reset_player_history()
 		self.reset_turn_history()
+
+		# Show client clock for all rounds except 3-6-9
+		if self.current_round_text != "3-6-9":
+			self.clock_visible = True
 
 		# Finale
 		# Needs to come before general advance, else no finalists will be found

@@ -60,6 +60,12 @@ class DeSlimsteMens extends Gameshow {
 			document.body.classList.add("unadvanced");
 		}
 
+		document.body.classList.remove("clocktogglevisible");
+		// Add a specific class if clock toggle is visible
+		if (state.clock_visible) {
+			document.body.classList.add("clocktogglevisible");
+		}
+
 		// Round-specific rendering
 		switch (state.current_round_text) {
 			case "3-6-9":

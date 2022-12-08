@@ -308,3 +308,12 @@ button.float {
 .unadvanced .controls {
 	display: none;
 }
+
+/* Clock UI */
+.clocktoggle {
+	display: none;
+}
+
+.clocktogglevisible .clocktoggle {
+	display: inline-block;
+}
