@@ -39,7 +39,7 @@ class Scores {
 		this.scoreDomBuilt = true;
 	}
 
-	renderState(state) {
+	renderState(state, updatePoints=true) {
 		// We only build the score badges ONCE
 		if (!this.scoreDomBuilt) {
 			this.buildScoreDom(state);
@@ -47,13 +47,20 @@ class Scores {
 
 		let playerIndex = 0;
 		state.players.forEach(player => {
-			this.adjustPlayerPoints(playerIndex, player.points);
+			if (updatePoints) {
+				this.adjustPlayerPoints(playerIndex, player.points);
+			}
 
 			let circle = document.getElementById(this.getCircleElementName(playerIndex));
 			circle.classList.remove("turn");
+			circle.classList.remove("spin");
 
 			if (playerIndex == state.active_player_index) {
 				circle.classList.add("turn");
+
+				if (state.timer_running) {
+					circle.classList.add("spin");
+				}
 			}
 
 			playerIndex++;

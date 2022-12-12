@@ -96,10 +96,8 @@ class DeSlimsteMens extends Gameshow {
 		}
 
 		// Render scores
-		// Don't do this if a timer is running -> unreliable!
-		if (!this.timer.running) {
-			this.scores.renderState(state);
-		}
+		// The second argument will block score updating if the timer is running
+		this.scores.renderState(state, !this.timer.running);
 
 		// Toggle the clock button UI
 		// "Start klok" and "Stop klok"

@@ -173,7 +173,6 @@ button.float {
 	outline: none;
 }
 
-
 .circle:before {
 	content: "";
 	display: inline-block;
@@ -227,11 +226,13 @@ button.float {
 	height: 100%;
 
 	position: absolute;
+
+	animation: spin 60s infinite;
+	animation-play-state: paused;
 }
 
 .circle.spin .background, .circle.small.transparent.turn .background
 {
-	animation: spin 60s infinite;
 	animation-play-state: running;
 }
 
