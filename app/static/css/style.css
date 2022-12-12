@@ -306,7 +306,7 @@ button.float {
 }
 
 .unadvanced .controls {
-	display: none;
+	visibility: hidden;
 }
 
 /* Clock UI */
