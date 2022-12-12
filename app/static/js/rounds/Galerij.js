@@ -25,6 +25,8 @@ class Galerij {
 			// Hide the "correct" button in the overview stage
 			if (state.overview) {
 				correctButton.classList.add("d-none");
+			} else {
+				correctButton.classList.remove("d-none");
 			}
 		}
 
