@@ -450,6 +450,8 @@ class DeSlimsteMens(Gameshow):
 				self.handle_list_answer_pass()
 				# Hide last image
 				self.current_question["image"] = None
+
+				self.clock_stop(pass_turn=False)
 			# If we're in the review stage, advance the subround
 			else:
 				self.advance_subround()
