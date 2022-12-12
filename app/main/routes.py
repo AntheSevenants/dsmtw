@@ -16,7 +16,7 @@ def host(callback=None):
 
 @main.route('/player')
 def player(callback=None):
-	return render_template('game.html', host=True)
+	return render_template('game.html', host=False)
 
 @main.route('/resources/<string:filename>')
 def display_label_image(filename):
