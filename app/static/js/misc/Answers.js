@@ -40,8 +40,10 @@ class Answers {
 					answerScoreElement.innerHTML = state.awarded_seconds[foundIndex];
 				}
 			} else {
-				answerTextElement.onclick = () => {
-					dsmtw.correct(i);
+				if (host) {
+					answerTextElement.onclick = () => {
+						dsmtw.correct(i);
+				}
 				};
 			}
 		}
