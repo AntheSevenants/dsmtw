@@ -27,4 +27,13 @@ class AuxiliaryMedia {
 			auxiliaryMediaElement.src = "";
 		}
 	}
+
+	static playVideo(filename) {
+		let auxiliaryMediaElementVideo = document.getElementById("auxiliaryMedia_video");
+		auxiliaryMediaElementVideo.classList.remove("d-none");
+		auxiliaryMediaElementVideo.src = `resources/${filename}`;
+		auxiliaryMediaElementVideo.play();
+
+		auxiliaryMediaElementVideo.onended = () => { auxiliaryMediaElementVideo.classList.add("d-none"); };
+	}
 }

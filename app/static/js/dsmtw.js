@@ -8,6 +8,8 @@ class DeSlimsteMens extends Gameshow {
 			this.clockStarted(); });
 		this.websocket.on('clock_stop', () => { 
 			this.clockStopped(); });
+		this.websocket.on('video', (filename) => { 
+			AuxiliaryMedia.playVideo(filename); });
 
 		this._currentSubroundText = null;
 
