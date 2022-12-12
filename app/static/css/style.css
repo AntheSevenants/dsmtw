@@ -324,7 +324,9 @@ button.float {
 }
 
 .client .answer {
-	cursor: initial;
+	cursor: default;
+	pointer-events: none;
+	user-select: none;
 }
 
 .client .answer .blurry {
