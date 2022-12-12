@@ -18,8 +18,16 @@ class Puzzel {
 			keywordElement.innerHTML = keyword;
 			keywordElement.className = "";
 
-			if (state.answers_found.includes(answerIndex)) {
+			if (state.answers_found.includes(answerIndex) || state.to_advance || host) {
 				keywordElement.classList.add(answerColours[answerIndex]);
+			}
+		}
+
+		for (let i = 0; i < state.current_question.answers.length; i++) {
+			let answerTextElement = document.getElementById(`round_Puzzel_answer_${i}`);
+			answerTextElement.classList.remove(answerColours[i]);
+			if (state.answers_found.includes(i) || state.to_advance || host) {
+				answerTextElement.classList.add(answerColours[i]);
 			}
 		}
 	}
