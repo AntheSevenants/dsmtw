@@ -34,6 +34,11 @@ class DeSlimsteMens extends Gameshow {
 			}
 		}
 
+		// Detect round change
+		if ((this.latestState.current_round_text != state.current_round_text) && !host) {
+			Bumper.playBumper(state.current_round_text);
+		}
+
 		// If the clock has been stopped server side (this is possible when all answers were found),
 		// we need to stop our local clock
 		if (!state.timer_running && this.timer.running) {

@@ -5,6 +5,9 @@
 	{% else %}
 		{% include "player.html" %}
 	{% endif %}
+	<div id="bumper" class="d-none">
+		<h1 id="bumper_text">Wie dit leest, is zot</h1>
+	</div>
 	<div style="position: fixed; top: 0; top: 0; left: 0; right: 0;">
 		<button onclick="javascript:dsmtw.advanceRound();">Advance round</button>
 		<button onclick="javascript:dsmtw.correct();">Correct</button>
