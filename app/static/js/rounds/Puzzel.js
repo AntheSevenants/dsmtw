@@ -1,5 +1,12 @@
 class Puzzel {
 	static renderState(state) {
+		let puzzle = document.getElementById("round_Puzzel_puzzle");
+		if (state.turn_history.length == 1 && !state.timer_running && !host) {
+			puzzle.style.visibility = "hidden";
+		} else {
+			puzzle.style.visibility = "visible";
+		}
+
 		// Puzzle matrix
 		let answerColours = [ "teal", "yellow", "green" ];
 
