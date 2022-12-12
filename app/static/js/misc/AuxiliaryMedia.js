@@ -29,6 +29,10 @@ class AuxiliaryMedia {
 	}
 
 	static playVideo(filename) {
+		if (host) {
+			return;
+		}
+
 		let auxiliaryMediaElementVideo = document.getElementById("auxiliaryMedia_video");
 		auxiliaryMediaElementVideo.classList.remove("d-none");
 		auxiliaryMediaElementVideo.src = `resources/${filename}`;
