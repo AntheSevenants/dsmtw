@@ -317,3 +317,8 @@ button.float {
 .clocktogglevisible .clocktoggle {
 	display: inline-block;
 }
+
+/* Player logic */
+.client .host {
+	display: none;
+}
