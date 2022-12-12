@@ -19,9 +19,19 @@ class Answers {
 			let answerScoreElement = document.getElementById(`round_${currentRound}_answer_score_${i}`);
 			answerScoreElement.classList.remove("found");
 
+			if (!host) {
+				answerTextElement.classList.add("blurry");
+			}
+
 			if (state.answers_found.includes(i)) {
-				answerTextElement.classList.add("found");
 				answerScoreElement.classList.add("found");
+
+				if (host) {
+					answerTextElement.classList.add("found");
+				} else {
+					answerTextElement.classList.remove("blurry");
+				}
+
 
 				// Dyanmic scoring for Collectief geheugen round
 				if (state.current_round_text == "Collectief geheugen") {
