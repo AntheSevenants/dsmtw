@@ -323,6 +323,10 @@ button.float {
 	display: none;
 }
 
+.client .answer {
+	cursor: initial;
+}
+
 .client .answer .blurry {
 	color: transparent;
    	text-shadow: 0 0 25px rgba(0,0,0,0.9);
