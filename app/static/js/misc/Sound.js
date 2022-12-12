@@ -18,7 +18,7 @@ class Sound {
 			soundElement.currentTime = 0;
 			soundElement.play();
 		} else {
-			soundElement.stop();
+			soundElement.pause();
 		}
 	}
 }
