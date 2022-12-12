@@ -15,6 +15,7 @@ class Timer {
 	start() {
 		this.interval = setInterval(() => { this.tick(); }, 1000);
 		this.running = true;
+		Sound.playSound("clock");
 	}
 
 	stop() {
@@ -22,6 +23,8 @@ class Timer {
 			clearInterval(this.interval);
 		}
 		this.running = false;
+		Sound.stopSound("clock");
+		Sound.playSound("clock_end");
 	}
 
 	tick() {

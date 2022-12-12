@@ -8,6 +8,10 @@ class Sound {
 	}
 
 	static playStopSound(soundName, play) {
+		if (host) {
+			return;
+		}
+
 		let soundElement = document.getElementById(`snd_${soundName}`);
 
 		if (play) {
