@@ -148,6 +148,10 @@ class DeSlimsteMens extends Gameshow {
 
 	pointsAwarded(pointsAwarded) {
 		this.timer.currentPoints += pointsAwarded;
+
+		if (!host) {
+			Sound.playSound("correct");
+		}
 	}
 
 	setupTimer() {
