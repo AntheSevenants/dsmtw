@@ -12,6 +12,10 @@ class AuxiliaryMedia {
 		}
 
 		if (state.current_question.image != null | state.current_question.video != null) {
+			if ([ "Galerij" ].includes(state.current_round_text) && state.turn_history.length == 1 && !state.timer_running && !host) {
+				return;
+			}
+
 			container.classList.remove("d-none");
 		}
 
