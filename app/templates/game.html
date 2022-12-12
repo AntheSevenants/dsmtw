@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-	<script type="text/javascript">
-		host = true;
-	</script>
+	{% if host %}
+		{% include "host.html" %}
+	{% else %}
+		{% include "player.html" %}
+	{% endif %}
 	<div style="position: fixed; top: 0; top: 0; left: 0; right: 0;">
 		<button onclick="javascript:dsmtw.advanceRound();">Advance round</button>
 		<button onclick="javascript:dsmtw.correct();">Correct</button>

@@ -9,7 +9,7 @@ from .. import global_questions_directory
 @main.route('/')
 @main.route('/overview')
 def overview(callback=None):
-	return render_template('game.html')
+	return render_template('game.html', host=True)
 
 @main.route('/resources/<string:filename>')
 def display_label_image(filename):
