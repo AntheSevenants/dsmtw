@@ -6,9 +6,12 @@ from . import main
 
 from .. import global_questions_directory
 
-@main.route('/')
-@main.route('/overview')
-def overview(callback=None):
+@main.route('/host')
+def host(callback=None):
+	return render_template('game.html', host=True)
+
+@main.route('/player')
+def player(callback=None):
 	return render_template('game.html', host=True)
 
 @main.route('/resources/<string:filename>')
