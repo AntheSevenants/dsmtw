@@ -6,6 +6,10 @@ from . import main
 
 from .. import global_questions_directory
 
+@main.route('/')
+def landing():
+	return render_template('landing.html', global_questions_directory=global_questions_directory)
+
 @main.route('/host')
 def host(callback=None):
 	return render_template('game.html', host=True)

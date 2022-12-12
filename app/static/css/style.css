@@ -66,7 +66,7 @@ input
 	font-family: 'dsmtw';
 }
 
-button
+button, a.button
 {
 	cursor: pointer;
     display: inline-block;
