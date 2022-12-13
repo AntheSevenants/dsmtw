@@ -40,6 +40,11 @@ class DeSlimsteMens extends Gameshow {
 			Sound.playSound("intro");
 		}
 
+		// Detect game win
+		if (this.latestState.running && !state.running && !host) {
+			Sound.playSound("finale");
+		}
+
 		// Detect round change
 		if ((this.latestState.current_round_text != state.current_round_text) && !host) {
 			Bumper.playBumper(state.current_round_text);
