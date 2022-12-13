@@ -1,6 +1,7 @@
 # dsmtw
 # by Anthe Sevenants
 # started on 2022-12-03
+# 100% functional on 2022-12-13
 # based on the 2016 version in PHP
 
 
