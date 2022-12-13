@@ -164,11 +164,11 @@ class DeSlimsteMens extends Gameshow {
 	}
 
 	pointsAwarded(pointsAwarded) {
-		if (this.latestState.current_round_text != "Finale") {
+		if (this.latestState.current_round_text != "Finale" && pointsAwarded != null) {
 			this.timer.currentPoints += pointsAwarded;
 		}
 
-		if (!host) {
+		if (!host && pointsAwarded != null) {
 			Sound.playSound("correct");
 		}
 	}

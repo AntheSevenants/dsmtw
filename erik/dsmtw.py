@@ -278,8 +278,8 @@ class DeSlimsteMens(Gameshow):
 
 	def answer_correct(self, answer_value):
 		if self.current_round_text == "3-6-9":
-			self.handle_369_answer_correct()
-			return
+			points_awarded = self.handle_369_answer_correct()
+			return points_awarded
 		elif self.current_round_text == "Open deur":
 			points_awarded = 20
 			self.handle_list_answer_correct(answer_value, points_awarded)
@@ -375,12 +375,17 @@ class DeSlimsteMens(Gameshow):
 	#
 
 	def handle_369_answer_correct(self):
+		points_awarded = None
+
 		# If this is the third question in 3-6-9, award 10 seconds
 		if (self.current_subround + 1) % 3 == 0:
-			self.award_seconds(10)
+			points_awarded = 10
+			self.award_seconds(points_awarded)
 
 		# Then, move on to the next question
 		self.to_advance = "subround"
+
+		return points_awarded
 
 	def handle_369_answer_pass(self):
 		self.add_current_player_to_turn_history()
