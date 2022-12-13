@@ -368,3 +368,8 @@ button.float {
 #bumper h1 {
 	font-size: 10vw;
 }
+
+#bumper.small h1
+{
+	font-size: 6vw;
+}

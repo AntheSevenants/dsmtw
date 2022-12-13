@@ -34,6 +34,12 @@ class DeSlimsteMens extends Gameshow {
 			}
 		}
 
+		// Detect game start
+		if (!this.latestState.running && state.running && !host) {
+			Bumper.playBumper("De Slimste Mens Ter Wereld", true);
+			Sound.playSound("intro");
+		}
+
 		// Detect round change
 		if ((this.latestState.current_round_text != state.current_round_text) && !host) {
 			Bumper.playBumper(state.current_round_text);
