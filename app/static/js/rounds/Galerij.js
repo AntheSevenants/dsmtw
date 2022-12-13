@@ -26,7 +26,7 @@ class Galerij {
 			if (state.overview) {
 				correctButton.classList.add("d-none");
 			} else {
-				
+				correctButton.classList.remove("d-none");
 			}
 		}
 
