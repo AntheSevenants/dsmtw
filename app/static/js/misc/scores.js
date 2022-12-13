@@ -47,7 +47,7 @@ class Scores {
 
 		let playerIndex = 0;
 		state.players.forEach(player => {
-			if (updatePoints) {
+			if (updatePoints || playerIndex != state.active_player_index) {
 				this.adjustPlayerPoints(playerIndex, player.points);
 			}
 
