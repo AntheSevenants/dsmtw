@@ -326,6 +326,8 @@ class DeSlimsteMens(Gameshow):
 		# - getting the index of the current player
 		# - then getting the index of the only other player in that list
 		target_player_index = abs(self.finalist_player_indices.index(self.active_player_index) - 1)
+		target_player_index = self.finalist_player_indices[target_player_index]
+		
 		self.players[target_player_index].points -= seconds
 
 		if self.players[target_player_index].points <= 0:
