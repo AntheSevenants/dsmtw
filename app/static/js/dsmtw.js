@@ -59,18 +59,14 @@ class DeSlimsteMens extends Gameshow {
 		let roundContainers = document.getElementsByClassName("round");
 		let currentRound = state.current_round_text;
 		// Only render the game if it is running
-		if (state.running) {
-			Array.from(roundContainers).forEach(roundContainer => 
-				roundContainer.classList.remove("current"));
-		} else {
+		Array.from(roundContainers).forEach(roundContainer => roundContainer.classList.remove("current"));
+		if (!state.running) {
 			currentRound = "start";
 		}
 
-		if (state.running) {
-			// ..then only show the current one
-			// or render game start if host
-			document.getElementById(`round_${state.current_round_text}`).classList.add("current");
-		}
+		// ..then only show the current one
+		// or render game start if host
+		document.getElementById(`round_${currentRound}`).classList.add("current");
 
 		document.body.classList.remove("unadvanced");
 		// Add a specific class if to_advance is not null

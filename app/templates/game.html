@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				<div id="round_start" class="round">
-					<button onclick="javascript:dsmtw.startGame();">Start het spel</button>
+					<button onclick="javascript:dsmtw.startGame();" class="host">Start het spel</button>
 				</div>
 				{% include "rounds/369.html" %}
 				{% include "rounds/OpenDeur.html" %}
@@ -62,5 +62,8 @@
 	</audio>
 	<audio id="snd_clock_end">
   		<source src="/static/sounds/clock_end.mp3" type="audio/mpeg">
+	</audio>
+	<audio id="snd_intro">
+  		<source src="/static/sounds/intro.mp3" type="audio/mpeg">
 	</audio>
 {% endblock %}
