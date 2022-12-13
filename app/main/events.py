@@ -45,7 +45,11 @@ def io_advance_subround():
 
 @socketio.on('release_advance', namespace=namespace)
 def io_release_advance():
-	game.release_advance()
+	to_release = game.release_advance()
+
+	if to_release == "video":
+		broadcast_video(game.current_question["video"])
+
 	broadcast_state()
 
 @socketio.on('answer_correct', namespace=namespace)

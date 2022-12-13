@@ -147,6 +147,11 @@ class DeSlimsteMens(Gameshow):
 		if self.current_round_text != "3-6-9":
 			self.clock_visible = True
 
+		# Collectief geheugen
+		# Make a "wait" state so the video can start
+		if self.current_round_text == "Collectief geheugen":
+			self.to_advance = "video"
+
 		# Finale
 		# Needs to come before general advance, else no finalists will be found
 		if self.current_round_text == "Finale":
@@ -247,12 +252,18 @@ class DeSlimsteMens(Gameshow):
 
 	# Used to *actually* advance after host review
 	def release_advance(self):
+		to_return = False
+
 		if self.to_advance == "subround":
 			self.advance_subround()
 		elif self.to_advance == "round":
 			self.advance_round()
+		elif self.to_advance == "video":
+			to_return = "video"
 
 		self.to_advance = None
+
+		return to_return
 
 	# 
 	# Clock
