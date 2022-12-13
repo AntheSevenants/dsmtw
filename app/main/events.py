@@ -9,7 +9,6 @@ from .. import global_questions_directory
 from erik.dsmtw import DeSlimsteMens
 
 game = DeSlimsteMens(["Bart", "Danira", "Liesbet"], global_questions_directory)
-game.start_game() # temporary!
 
 namespace = ""
 
@@ -23,6 +22,11 @@ def broadcast_state():
 
 def broadcast_video(video_filename):
 	socketio.emit("video", video_filename)
+
+@socketio.on('start_game', namespace=namespace)
+def io_start_game():
+	game.start_game()
+	broadcast_state()
 
 @socketio.on('advance', namespace=namespace)
 def io_advance():
