@@ -321,7 +321,7 @@ button.float {
 
 /* Player logic */
 .client .host {
-	display: none;
+	display: none !important;
 }
 
 .client .answer {
