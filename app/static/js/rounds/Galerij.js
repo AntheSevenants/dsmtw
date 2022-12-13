@@ -9,7 +9,7 @@ class Galerij {
 		if (state.turn_history.length > 1) {
 			slideshowControl.classList.add("d-none");
 		} else {
-			answersElement.classList.add("d-none");
+			answersElement.classList.remove("d-none");
 		}
 
 		if (host) {
