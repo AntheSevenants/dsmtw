@@ -346,8 +346,8 @@ class DeSlimsteMens(Gameshow):
 		self.players[target_player_index].points -= seconds
 
 		if self.players[target_player_index].points <= 0:
-			self.players[target_player_index].points = 0
 			self.clock_stop()
+			self.players[target_player_index].points = 0
 			self.end_game()
 
 	def handle_list_answer_correct(self, answer_index, awarded_seconds):
