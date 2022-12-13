@@ -162,6 +162,10 @@ class DeSlimsteMens(Gameshow):
 	def advance_subround(self):
 		self.reset_turn_history()
 
+		if self.current_round_text == "Finale":
+			# Player history is reset over subrounds in the Finale round as well
+			self.reset_player_history()
+
 		if self.current_round_text == "Galerij" and self.overview == False:
 			self.reset_galerij_index()
 			self.overview = True
@@ -350,7 +354,7 @@ class DeSlimsteMens(Gameshow):
 			self.deduct_seconds(awarded_seconds)
 
 		if len(self.answers_found) == len(self.current_question["answers"]):
-			self.clock_stop()
+			self.clock_stop(pass_turn=False)
 			self.to_advance = "subround"
 
 	def handle_list_answer_pass(self):
