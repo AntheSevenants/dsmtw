@@ -19,6 +19,8 @@ class Answers {
 			let answerScoreElement = document.getElementById(`round_${currentRound}_answer_score_${i}`);
 			answerScoreElement.classList.remove("found");
 
+			answerTextElement.classList.remove("blurry");
+
 			if (!host && !state.to_advance) {
 				answerTextElement.classList.add("blurry");
 			}
