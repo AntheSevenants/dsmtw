@@ -12,6 +12,7 @@ class Scores {
 
 			let circleBox = document.createElement("div");
 			circleBox.className = "circlebox";
+			circleBox.id = this.getCircleBoxElementName(i);
 
 			let playerName = document.createElement("div")
 			playerName.className = "name";
@@ -66,12 +67,26 @@ class Scores {
 			playerIndex++;
 		});
 
+		/* Hide non finalists in Finale ronde */
+		if (state.current_round_text == "Finale") {
+			let playerIndex = 0;
+			state.players.forEach(player => {
+				if (!player.finalist) {
+					document.getElementById(this.getCircleBoxElementName(playerIndex)).classList.add("d-none");
+				}
 
+				playerIndex++
+			});
+		}
 	}
 
 	adjustPlayerPoints(playerIndex, points) {
 		document.getElementById(this.getScoreElementName(playerIndex)).innerHTML = 
 				points;
+	}
+
+	getCircleBoxElementName(playerIndex) {
+		return `circlebox_player_${playerIndex}`;
 	}
 
 	getCircleElementName(playerIndex) {
