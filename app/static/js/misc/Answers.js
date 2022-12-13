@@ -21,7 +21,7 @@ class Answers {
 
 			answerTextElement.classList.remove("blurry");
 
-			if (!host && !state.to_advance) {
+			if (!host && (!state.to_advance || state.to_advance == "video")) {
 				answerTextElement.classList.add("blurry");
 			}
 
