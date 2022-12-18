@@ -19,15 +19,7 @@ class DeSlimsteMens(Gameshow):
 
 		self.questions = [ [] for round_text in rounds ]
 
-		# Load the questions for each round
-		for i, round_text in enumerate(self.rounds):
-			# Each question set should be named "round.json"
-			questions_json_path = os.path.join(questions_directory, f"{round_text}.json")
-			if os.path.exists(questions_json_path):
-				with open(questions_json_path, "rt", encoding="utf-8") as reader:
-					self.questions[i] = json.loads(reader.read())
-			else:
-				print(f"Questions for round {round_text} not found!")
+		self.load_questions(questions_directory)
 
 		# Start off by setting the current question to the first question
 		# This, of course, assumes we're starting in 3-6-9
@@ -512,3 +504,33 @@ class DeSlimsteMens(Gameshow):
 		# Get the two first players from the array and make them finalists
 		self.players[self.finalist_player_indices[0]].finalist = True
 		self.players[self.finalist_player_indices[1]].finalist = True
+
+	# 
+	# Question loading
+	# 
+
+	def load_questions(self, questions_directory):
+		# Load the questions for each round
+		for i, round_text in enumerate(self.rounds):
+			# Each question set should be named "round.json"
+			questions_json_path = os.path.join(questions_directory, f"{round_text}.json")
+			if os.path.exists(questions_json_path):
+				with open(questions_json_path, "rt", encoding="utf-8") as reader:
+					self.questions[i] = json.loads(reader.read())
+					question_count = len(self.questions[i])
+					
+					# Different checks for finale
+					if round_text == "Finale":
+						if question_count < 10:
+							print(f"{round_text}: {question_count} questions might be too few")
+						continue
+
+					if round_text == "3-6-9":
+						if question_count < 15:
+							print(f"{round_text}: 15 questions are required for this round")
+						continue
+
+					if question_count < self.no_players:
+						print(f"{round_text}: not enough questions ({question_count}) for the number of players ({self.no_players})")
+			else:
+				print(f"Questions for round {round_text} not found!")
