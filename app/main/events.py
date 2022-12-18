@@ -4,11 +4,11 @@ import json
 from flask import session
 from flask_socketio import emit, join_room, leave_room
 from .. import socketio
-from .. import global_questions_directory
+from .. import global_questions_directory, global_player_names
 
 from erik.dsmtw import DeSlimsteMens
 
-game = DeSlimsteMens(["Bart", "Danira", "Liesbet"], global_questions_directory)
+game = DeSlimsteMens(global_player_names, global_questions_directory)
 
 namespace = ""
 

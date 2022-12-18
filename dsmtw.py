@@ -20,11 +20,15 @@ parser.add_argument('function', type=str,
 					help='listen')
 parser.add_argument('questions_directory', type=str,
 					help='tafelquiz')
+parser.add_argument('player_names', type=str,
+					help='list of the player names, separated by commas')
 
 args = parser.parse_args();
 
 if args.function == "listen":
-	app = create_app(args.questions_directory, debug=True)
+	player_names = args.player_names.split(",")
+
+	app = create_app(args.questions_directory, player_names, debug=True)
 	app.jinja_env.auto_reload = True
 	app.config['TEMPLATES_AUTO_RELOAD'] = True
 
