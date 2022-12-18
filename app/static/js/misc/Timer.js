@@ -27,8 +27,10 @@ class Timer {
 		Sound.playSound("clock_end");
 	}
 
-	tick() {
-		this.currentPoints -= 1;
+	tick(deductPoints=true) {
+		if (deductPoints) {
+			this.currentPoints -= 1;
+		}
 		this.scores.adjustPlayerPoints(this.activePlayerIndex, this.currentPoints);
 	}
 
