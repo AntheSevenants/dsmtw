@@ -16,12 +16,11 @@
 		<button onclick="javascript:dsmtw.clockStop();">Clock stop</button>
 		<h1 id="currentround" style="display: inline-block;">current round</h1>
 	</div>
-	<div class="container {% if not host %}client{% endif %}">
+	<div class="container-fluid {% if not host %}client{% endif %}">
 		<button class="float host" onclick="javascript:dsmtw.releaseAdvance();">></button>
 		<div class="row full top align-items-center justify-content-center text-center">
 			<!-- Scores will go here -->
-			<div class="col-2">
-				<h3>Scores</h3>
+			<div class="col-2" style="max-width: 350px;">
 				<div class="scores" id="scores">
 					<!-- Score badges will be generated automatically -->
 				</div>

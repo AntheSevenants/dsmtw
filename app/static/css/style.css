@@ -111,7 +111,7 @@ button.float {
 
 /* Lay-out */
 
-.container {
+.container-fluid {
 	height: 100%;
 }
 
@@ -132,6 +132,16 @@ button.float {
 	height: auto;
 
 	display: inline-block;
+}
+
+.scores {
+	display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: stretch;
+    gap: 3vh;
 }
 
 /* Circle rendering */
@@ -214,6 +224,14 @@ button.float {
 	color: #ffa930;
 }
 
+.circle .score {
+	font-size: 4vw;
+}
+
+.circle.small .score {
+	font-size: 3vw;
+}
+
 .circle .background, .circle.small.transparent.turn .background
 {
 	background-image: url('../img/dsm_circle_l_uni_spin_trans.png');
@@ -245,7 +263,7 @@ button.float {
 {
 	position: absolute;
 	
-	font-size: 2em;
+	font-size: 2vw;
 
 	top: -1vw;
 
@@ -293,6 +311,10 @@ button.float {
 
 .answer .score.found {
 	visibility: visible;
+}
+
+.game table {
+	font-size: 2vw;
 }
 
 /* Bootstrap resets */
