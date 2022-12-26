@@ -80,6 +80,8 @@ def io_answer_pass():
 
 @socketio.on('clock_start', namespace=namespace)
 def io_clock_start():
+	game = current_app.config["game"]
+	
 	socketio.emit("clock_start")
 	game.clock_start()
 	broadcast_state()
