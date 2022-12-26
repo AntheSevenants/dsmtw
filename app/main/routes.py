@@ -4,11 +4,11 @@ import random
 from flask import session, redirect, url_for, render_template, request, send_file
 from . import main
 
-from .. import global_questions_directory
+from flask import current_app
 
 @main.route('/')
 def landing():
-	return render_template('landing.html', global_questions_directory=global_questions_directory)
+	return render_template('landing.html', global_questions_directory=current_app.config["questions_directory"])
 
 @main.route('/host')
 def host(callback=None):
@@ -20,6 +20,8 @@ def player(callback=None):
 
 @main.route('/resources/<string:filename>')
 def display_label_image(filename):
+	global_questions_directory = current_app.config["questions_directory"]
+
 	if not os.path.isabs(global_questions_directory):
 		path = os.path.join("..", global_questions_directory, filename)
 	else:
