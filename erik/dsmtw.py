@@ -505,6 +505,15 @@ class DeSlimsteMens(Gameshow):
 		self.players[self.finalist_player_indices[0]].finalist = True
 		self.players[self.finalist_player_indices[1]].finalist = True
 
+	# When player lets the timer run out
+	def timeout(self):
+		# Stop the clock
+		self.clock_stop(pass_turn=False)
+		# Make the points equal zero
+		self.active_player.points = 0
+		# Victory!
+		self.end_game()
+
 	# 
 	# Question loading
 	# 
