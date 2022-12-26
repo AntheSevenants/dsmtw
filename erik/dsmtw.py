@@ -33,7 +33,7 @@ class DeSlimsteMens(Gameshow):
 
 		# The leftmost player should start
 		self.set_active_player(0)
-		self.reset_turn_history()
+		self.reset_turn_history(save_latest_player=False)
 
 		# Let's award 60 seconds to every player, which they'll need in the game
 		# ...and maybe also in the finals!
@@ -57,6 +57,10 @@ class DeSlimsteMens(Gameshow):
 		# Only show the clock toggle on the client when necessary
 		self.clock_visible = False
 
+		# Player with last turn
+		# Important for ex aequo scores in the Finale round
+		self.last_player_index = 1
+
 	# 
 	# Turn taking
 	# 
@@ -64,7 +68,11 @@ class DeSlimsteMens(Gameshow):
 	# We use the turn history to keep track of which players have already had a guess
 	# in this specific subround. This allows game-crucial mechanics such as keeping track
 	# of who can complement an answer first
-	def reset_turn_history(self):
+	def reset_turn_history(self, save_latest_player=True):
+		if save_latest_player:
+			if len(self.turn_history) > 0:
+				self.last_player_index = self.turn_history[-1]
+
 		self.turn_history = []
 
 	# The same as above, but for EXTERNAL turns
@@ -114,6 +122,14 @@ class DeSlimsteMens(Gameshow):
 			# Ignore player if Finale and not a finalist
 			if self.current_round_text == "Finale" and not player.finalist:
 				continue
+
+			# Both finalist scores are equal
+			if self.current_round_text == "Finale" and player.points == current_lowest_score \
+				and self.current_subround != 0:
+				# Give the turn to the player who had the turn last
+				next_player_index = self.last_player_index
+				print("Special Finale turn logic")
+				break
 
 			if player.points < current_lowest_score and player_index not in history:
 				current_lowest_score = player.points
